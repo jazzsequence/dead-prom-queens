@@ -23,3 +23,7 @@ Built with Next.js 16, edited with [P1](https://content.pantheon.io) and Puck, a
 - **The band itself** (name, tagline, sections, type, palette, hosting) is `band.config.json`.
 - **Content** (albums, tour dates, merch, lyrics, press) is files in `data/` and `content/`, plus pages edited in P1: see [CONTENT.md](CONTENT.md).
 - **Architecture, workflows and the reasons behind them** are in [CLAUDE.md](CLAUDE.md).
+
+## Licence
+
+MIT. See [LICENSE](LICENSE).
