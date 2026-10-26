@@ -1,7 +1,7 @@
 {
-  "name": "band-site-template",
+  "name": "dead-prom-queens",
   "version": "0.1.0",
-  "description": "A website for a band, real or fictional: Next.js 16 and P1 (Puck) on Pantheon.",
+  "description": "Trash goth post-punk. Black dresses, dead flowers, no encore.",
   "private": true,
   "type": "module",
   "scripts": {
