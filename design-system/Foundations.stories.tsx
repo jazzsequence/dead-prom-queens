@@ -143,15 +143,28 @@ export const Typography: StoryObj = {
       </div>
       <div>
         <p className="mb-1 text-xs uppercase tracking-widest text-dim">
-          Wordmark · {typography.wordmarkFace ? "Unbounded, capitals, -0.05em" : "the display face, as typed"} (typography.wordmarkFace in band.config.json)
+          Wordmark ·{" "}
+          {typography.customFaces?.wordmark
+            ? `${typography.customFaces.wordmark.family}, one weight, as typed (typography.customFaces.wordmark)`
+            : typography.wordmarkFace
+              ? "Unbounded, capitals, -0.05em (typography.wordmarkFace)"
+              : "the display face, as typed"}
         </p>
         <Wordmark size="lg" />
+        <p className="mb-1 mt-4 text-xs uppercase tracking-widest text-dim">The same wordmark at header size</p>
+        <Wordmark />
       </div>
       <div>
         <p className="mb-1 text-xs uppercase tracking-widest text-dim">
-          Kickers · {typography.accentFace ? "UnifrakturCook, for kickers and flourishes only" : "the display face"} (typography.accentFace in band.config.json)
+          Kickers ·{" "}
+          {typography.customFaces?.accent
+            ? `${typography.customFaces.accent.family}, a script: kickers only, never smaller than 24px (text-2xl)`
+            : typography.accentFace
+              ? "UnifrakturCook, for kickers and flourishes only (typography.accentFace)"
+              : "the display face"}
         </p>
         <p className="font-gothic text-4xl text-accent">On the road</p>
+        <p className="mt-2 font-gothic text-2xl text-accent">On the road, at the smallest size a kicker may be</p>
       </div>
       <div className="max-w-xl">
         <p className="mb-1 text-xs uppercase tracking-widest text-dim">Body · Space Grotesk</p>
