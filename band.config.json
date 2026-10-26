@@ -1,44 +1,48 @@
 {
   "band": {
-    "name": "Your Band",
-    "tagline": "One line that says what your band sounds like.",
-    "description": "A sentence or two about the band, used for search results and social cards.",
-    "genre": "Genre",
-    "fictional": false,
-    "siteUrl": "https://example.com",
+    "name": "Dead Prom Queens",
+    "tagline": "Trash goth post-punk. Black dresses, dead flowers, no encore.",
+    "description": "Trash goth post-punk fronted by Cilla Hex, with Dead Wren Walking and Ellis Static.",
+    "genre": "Trash goth, post-punk",
+    "fictional": true,
+    "siteUrl": "https://deadpromqueens.jazzsequence.com",
     "copyrightYear": 2026,
     "social": []
   },
   "features": {
-    "tour": true,
+    "tour": false,
     "merch": true,
     "lyrics": true,
-    "map": true,
-    "press": true
+    "map": false,
+    "press": false
   },
   "typography": {
     "wordmarkFace": false,
     "accentFace": false
   },
   "setup": {
-    "initialized": false
+    "initialized": true
+  },
+  "hosting": {
+    "pantheonSite": "dead-prom-queens",
+    "p1SiteId": "a5773c86-3c93-46ed-9450-8f363b7f0982"
   },
   "editorial": {
     "offLimitsFile": "docs/off-limits.md"
   },
   "palette": {
-    "void": "#07050d",
-    "surface": "#0e0a18",
-    "raised": "#17112a",
-    "line": "#2c2250",
-    "text": "#f5f0ff",
-    "muted": "#b9aed6",
-    "dim": "#8f84ad",
-    "accent": "#ff3fa4",
-    "accent-2": "#a98bff",
-    "accent-3": "#3ef0ff",
-    "metal-hi": "#f1effa",
-    "metal-mid": "#d9d6ea",
-    "metal-lo": "#8d8aa6"
+    "void": "#020703",
+    "surface": "#041107",
+    "raised": "#071b0c",
+    "line": "#133c1f",
+    "text": "#ebf5ed",
+    "muted": "#acc5b0",
+    "dim": "#829d87",
+    "accent": "#86b990",
+    "accent-2": "#d0a9cb",
+    "accent-3": "#ecbcc5",
+    "metal-hi": "#ecf4ee",
+    "metal-mid": "#cfdbd1",
+    "metal-lo": "#7a8c7d"
   }
 }

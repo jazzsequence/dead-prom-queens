@@ -5,26 +5,26 @@
  */
 @theme {
   /* Surfaces */
-  --color-void: #07050d;
-  --color-surface: #0e0a18;
-  --color-raised: #17112a;
-  --color-line: #2c2250;
+  --color-void: #020703;
+  --color-surface: #041107;
+  --color-raised: #071b0c;
+  --color-line: #133c1f;
 
   /* Text */
-  --color-text: #f5f0ff;          /* 17.4:1 on surface, 16.3:1 worst case */
-  --color-muted: #b9aed6;         /* 9.3:1 on surface, 8.7:1 worst case */
-  --color-dim: #8f84ad;           /* 5.6:1 on surface, 5.2:1 worst case */
+  --color-text: #ebf5ed;          /* 17.2:1 on surface, 16.0:1 worst case */
+  --color-muted: #acc5b0;         /* 10.4:1 on surface, 9.7:1 worst case */
+  --color-dim: #829d87;           /* 6.5:1 on surface, 6.0:1 worst case */
 
   /* Accents, by role. accent is the primary (kickers, primary action), accent-2 links and labels,
      accent-3 focus and secondary actions. Components never name a hue. */
-  --color-accent: #ff3fa4;        /* 6.0:1 on surface, 5.6:1 worst case */
-  --color-accent-2: #a98bff;      /* 7.2:1 on surface, 6.8:1 worst case */
-  --color-accent-3: #3ef0ff;      /* 14.0:1 on surface, 13.1:1 worst case */
+  --color-accent: #86b990;        /* 8.5:1 on surface, 7.9:1 worst case */
+  --color-accent-2: #d0a9cb;      /* 9.3:1 on surface, 8.7:1 worst case */
+  --color-accent-3: #ecbcc5;      /* 11.5:1 on surface, 10.7:1 worst case */
 
   /* Metal (metallic neutral). metal-mid is the gradient's bright third stop. */
-  --color-metal-hi: #f1effa;      /* 17.1:1 on surface, 16.0:1 worst case */
-  --color-metal-lo: #8d8aa6;      /* 5.8:1 on surface, 5.4:1 worst case */
-  --color-metal-mid: #d9d6ea;     /* 13.7:1 on surface, 12.8:1 worst case */
+  --color-metal-hi: #ecf4ee;      /* 17.2:1 on surface, 16.0:1 worst case */
+  --color-metal-lo: #7a8c7d;      /* 5.3:1 on surface, 5.0:1 worst case */
+  --color-metal-mid: #cfdbd1;     /* 13.5:1 on surface, 12.5:1 worst case */
 
   /* Type choices from band.config.json. The wordmark face and the blackletter accent are optional; when off,
      those roles fall back to the display face, so components never need to know which was chosen. */
