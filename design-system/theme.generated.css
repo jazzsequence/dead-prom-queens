@@ -3,6 +3,21 @@
  * Every text colour clears WCAG AA (4.5:1) on all three surfaces. Ratios are floored to one
  * decimal, so a note never overstates; "worst case" is the lightest surface (raised).
  */
+@font-face {
+  font-family: "Broken 15";
+  src: url("https://files.deadpromqueens.jazzsequence.com/fonts/broken15.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Selfish";
+  src: url("https://files.deadpromqueens.jazzsequence.com/fonts/selfish.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   /* Surfaces */
   --color-void: #020703;
@@ -28,8 +43,8 @@
 
   /* Type choices from band.config.json. The wordmark face and the blackletter accent are optional; when off,
      those roles fall back to the display face, so components never need to know which was chosen. */
-  --font-wordmark: var(--font-display);
-  --font-gothic: var(--font-display);
+  --font-wordmark: "Broken 15", var(--font-display);
+  --font-gothic: "Selfish", var(--font-display);
 
   --shadow-glow-accent: 0 0 24px color-mix(in srgb, var(--color-accent) 45%, transparent);
   --shadow-glow-accent-3: 0 0 24px color-mix(in srgb, var(--color-accent-3) 35%, transparent);

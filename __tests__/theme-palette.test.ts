@@ -133,3 +133,54 @@ describe("resolvePalette", () => {
     expect(MIN_RATIO).toBe(4.5);
   });
 });
+
+describe("custom faces in the generated theme", () => {
+  const customFaces = {
+    baseUrl: "https://files.example.com/fonts",
+    wordmark: { family: "Broken 15", file: "broken15.woff2" },
+    accent: { family: "Selfish", file: "selfish.woff2" },
+  };
+  const none = { wordmarkFace: false, accentFace: false };
+
+  it("leaves the output byte-identical when there are none", () => {
+    expect(renderThemeCss(reference, { ...none, customFaces: undefined })).toBe(renderThemeCss(reference));
+    expect(renderThemeCss(reference)).not.toContain("@font-face");
+  });
+
+  it("declares one swap-loaded, single-weight @font-face per face, outside @theme", () => {
+    const css = renderThemeCss(reference, { ...none, customFaces });
+    expect(css).toContain('font-family: "Broken 15";\n  src: url("https://files.example.com/fonts/broken15.woff2") format("woff2");');
+    expect(css).toContain('font-family: "Selfish";\n  src: url("https://files.example.com/fonts/selfish.woff2") format("woff2");');
+    expect(css.match(/font-display: swap;/g)).toHaveLength(2);
+    expect(css.match(/font-weight: 400;/g)).toHaveLength(2);
+    expect(css.indexOf("@font-face")).toBeLessThan(css.indexOf("@theme {"));
+  });
+
+  it("writes only a clean url() for a legal base URL", () => {
+    const css = renderThemeCss(reference, { ...none, customFaces });
+    const urls = [...css.matchAll(/url\("([^"]*)"\)/g)].map((m) => m[1]);
+    expect(urls).toEqual(["https://files.example.com/fonts/broken15.woff2", "https://files.example.com/fonts/selfish.woff2"]);
+    for (const url of urls) expect(url).not.toMatch(/["')\\;{}]/);
+  });
+
+  it("refuses to write an unsafe URL or family into CSS even when called without the parser", () => {
+    const attack = (patch: object) => () => renderThemeCss(reference, { ...none, customFaces: { ...customFaces, ...patch } });
+    expect(attack({ baseUrl: 'https://a.com/");}body{display:none}/*' })).toThrow(/unsafe/);
+    expect(attack({ baseUrl: "https://a.com/fonts\\" })).toThrow(/unsafe/);
+    expect(attack({ wordmark: { family: 'Broken"; } body { display: none', file: "broken15.woff2" } })).toThrow(/unsafe/);
+    expect(attack({ accent: { family: "Selfish", file: 'x").woff2' } })).toThrow(/unsafe/);
+  });
+
+  it("points the role tokens at the faces and falls back to the display face", () => {
+    const css = renderThemeCss(reference, { ...none, customFaces });
+    expect(css).toContain('--font-wordmark: "Broken 15", var(--font-display);');
+    expect(css).toContain('--font-gothic: "Selfish", var(--font-display);');
+  });
+
+  it("lets a custom face replace the built-in one for its role only", () => {
+    const css = renderThemeCss(reference, { wordmarkFace: true, accentFace: true, customFaces: { baseUrl: customFaces.baseUrl, accent: customFaces.accent } });
+    expect(css).toContain('--font-wordmark: "Unbounded Variable", "Arial Black", sans-serif;');
+    expect(css).toContain('--font-gothic: "Selfish", var(--font-display);');
+    expect(css).not.toContain("Broken 15");
+  });
+});

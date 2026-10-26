@@ -25,13 +25,17 @@ const origin = (url: string | undefined, fallback: string) => {
  */
 const audioOrigin = origin(process.env.NEXT_PUBLIC_AUDIO_BASE_URL, "https://audio.example.com");
 const p1Origin = origin(process.env.NEXT_PUBLIC_CSS_BASE_URL, "https://ccr.p1.pantheon.io");
+// The band's own fonts are served from a bucket (typography.customFaces.baseUrl in band.config.json), so that origin,
+// and only that one, may supply fonts. The JSON is read directly: lib/band/config.ts is validated when the app builds.
+const bandConfig = require("./band.config.json") as { typography?: { customFaces?: { baseUrl?: string } } };
+const fontOrigin = origin(bandConfig.typography?.customFaces?.baseUrl, "");
 
 const csp = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
-  "font-src 'self'",
+  `font-src 'self'${fontOrigin ? ` ${fontOrigin}` : ""}`,
   `media-src 'self' ${audioOrigin} blob:`,
   // tile.openstreetmap.org: the tour map's tiles, requested only after a visitor clicks "Show map" (see the Privacy page).
   `connect-src 'self' ${p1Origin} https://tile.openstreetmap.org`,

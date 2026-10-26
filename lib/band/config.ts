@@ -10,6 +10,21 @@ export type Feature = (typeof FEATURES)[number];
 
 export type SocialLink = { label: string; url: string };
 
+export type CustomFace = {
+  /** The CSS font-family name. */
+  family: string;
+  /** The WOFF2 file under customFaces.baseUrl. */
+  file: string;
+  /** The original font file under docs/fonts/ (gitignored), read by scripts/make-brand-assets.mjs to draw the icons and card. */
+  source?: string;
+};
+
+/**
+ * Fonts whose licence allows use in the site's layout but not redistribution or typing: they live in the audio bucket
+ * (baseUrl, an https URL whose origin the CSP allows), not in git, and are never offered as an editor font choice.
+ */
+export type CustomFaces = { baseUrl: string; wordmark?: CustomFace; accent?: CustomFace };
+
 export type BandConfig = {
   band: {
     name: string;
@@ -31,6 +46,8 @@ export type BandConfig = {
     wordmarkFace: boolean;
     /** Use the blackletter face for kickers. Off: kickers use the display face. */
     accentFace: boolean;
+    /** The band's own faces, served from a bucket and never committed. A custom face replaces the built-in one for its role. */
+    customFaces?: CustomFaces;
   };
   /** Set by /init-band when it has run. false means this repo is still the placeholder band. */
   setup: { initialized: boolean };
@@ -57,6 +74,44 @@ export class BandConfigError extends Error {
 }
 
 const isObject = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
+
+// These strings end up in generated CSS and in a URL, so they are held to a short, plain alphabet. The base URL is
+// checked against an allowed alphabet, not for a few forbidden characters: a quote, parenthesis, backslash or "@"
+// would let a value close the url() in the generated stylesheet.
+const FACE_BASE_URL = /^https:\/\/[A-Za-z0-9.-]+(:\d{1,5})?(\/[A-Za-z0-9._~/-]*)?$/;
+const FACE_FAMILY = /^[A-Za-z0-9][A-Za-z0-9 -]{0,59}$/;
+const FACE_FILE = /^[A-Za-z0-9][A-Za-z0-9._-]*\.woff2$/;
+const FACE_SOURCE = /^[A-Za-z0-9][A-Za-z0-9._-]*\.(ttf|otf)$/i;
+const FACE_ROLES = ["wordmark", "accent"] as const;
+
+function parseCustomFaces(value: unknown, problems: string[]): CustomFaces | undefined {
+  const at = "typography.customFaces";
+  if (!isObject(value)) {
+    problems.push(`${at} must be an object`);
+    return undefined;
+  }
+  const out: CustomFaces = { baseUrl: "" };
+  const baseUrl = value.baseUrl;
+  if (typeof baseUrl !== "string" || !FACE_BASE_URL.test(baseUrl)) problems.push(`${at}.baseUrl must be an https:// URL of letters, digits, dots and hyphens, with an optional port and path (no credentials, query or quotes)`);
+  else out.baseUrl = baseUrl.replace(/\/$/, "");
+  for (const key of Object.keys(value)) if (key !== "baseUrl" && !(FACE_ROLES as readonly string[]).includes(key)) problems.push(`${at}.${key} is not known (baseUrl, ${FACE_ROLES.join(", ")})`);
+  if (!FACE_ROLES.some((role) => value[role] !== undefined)) problems.push(`${at} needs a wordmark or an accent face`);
+  for (const role of FACE_ROLES) {
+    const face = value[role];
+    if (face === undefined) continue;
+    if (!isObject(face)) {
+      problems.push(`${at}.${role} must be an object`);
+      continue;
+    }
+    const { family, file, source } = face;
+    if (typeof family !== "string" || !FACE_FAMILY.test(family)) problems.push(`${at}.${role}.family must be 1-60 letters, digits, spaces or hyphens`);
+    if (typeof file !== "string" || !FACE_FILE.test(file)) problems.push(`${at}.${role}.file must be a plain .woff2 file name`);
+    if (source !== undefined && (typeof source !== "string" || !FACE_SOURCE.test(source))) problems.push(`${at}.${role}.source must be a plain .ttf or .otf file name when present`);
+    for (const key of Object.keys(face)) if (!["family", "file", "source"].includes(key)) problems.push(`${at}.${role}.${key} is not known (family, file, source)`);
+    if (typeof family === "string" && typeof file === "string") out[role] = { family, file, ...(typeof source === "string" ? { source } : {}) };
+  }
+  return out;
+}
 
 export function parseBandConfig(input: unknown): BandConfig {
   const problems: string[] = [];
@@ -120,6 +175,10 @@ export function parseBandConfig(input: unknown): BandConfig {
   const t = section("typography");
   config.typography.wordmarkFace = flag(t, "typography", "wordmarkFace");
   config.typography.accentFace = flag(t, "typography", "accentFace");
+  if (t.customFaces !== undefined) {
+    const custom = parseCustomFaces(t.customFaces, problems);
+    if (custom) config.typography.customFaces = custom;
+  }
 
   // setup and hosting are optional so a config written before they existed still loads.
   const setupRaw = root.setup;
