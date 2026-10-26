@@ -1,0 +1,42 @@
+{
+  "path": "/listen",
+  "root": {
+    "props": {
+      "title": "Listen",
+      "description": "Stream and download every album, EP and unreleased recording."
+    }
+  },
+  "content": [
+    {
+      "type": "PageHeadingBlock",
+      "props": {
+        "id": "PageHeadingBlock-5",
+        "kicker": "Music",
+        "title": "Listen",
+        "intro": ""
+      }
+    },
+    {
+      "type": "AlbumSectionBlock",
+      "props": {
+        "id": "AlbumSectionBlock-6",
+        "albumSlug": "debut"
+      }
+    },
+    {
+      "type": "AlbumSectionBlock",
+      "props": {
+        "id": "AlbumSectionBlock-7",
+        "albumSlug": "first-ep"
+      }
+    },
+    {
+      "type": "AlbumSectionBlock",
+      "props": {
+        "id": "AlbumSectionBlock-8",
+        "albumSlug": "unreleased"
+      }
+    }
+  ],
+  "zones": {}
+}

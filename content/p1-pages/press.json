@@ -1,0 +1,20 @@
+{
+  "path": "/press",
+  "root": {
+    "props": {
+      "title": "Placeholder article title",
+      "description": "One sentence summarising the article."
+    }
+  },
+  "content": [
+    {
+      "type": "ArticleBlock",
+      "props": {
+        "id": "ArticleBlock-23",
+        "markdown": "# Placeholder article title\n\n*One sentence summarising the article.*\n\n**By Author Name**\n\nPlaceholder opening paragraph. Replace this file, or the page built from it in P1, with a real interview or review.\n\n**Interviewer:** A placeholder question?\n\n**Band:** A placeholder answer, long enough to see how the page sets a paragraph of text on a phone and on a desktop screen.",
+        "kicker": ""
+      }
+    }
+  ],
+  "zones": {}
+}

@@ -1,0 +1,59 @@
+@import "tailwindcss";
+@import "./theme.generated.css";
+/* Font files are imported from fonts.ts, not here: Vite cannot resolve font URLs that arrive through a
+   Tailwind CSS @import, so the Storybook build shipped no font files and fell back to system fonts. */
+
+/*
+ * Design tokens. Dark only. Colours are named by role (accent, accent-2, accent-3, metal), never by hue,
+ * so a band can re-theme the system by changing its palette; components must not name a hue.
+ * The colour tokens, glows and gradients are generated into theme.generated.css from band.config.json
+ * (`pnpm theme`), which also enforces WCAG AA on every text/background pair. Fonts, radius and motion
+ * stay here, except --font-wordmark and --font-gothic, which are optional choices in band.config.json.
+ * __tests__/colour-token-roles.test.ts fails if a hue-named token or an original-palette literal appears
+ * outside the few allowlisted files.
+ */
+@theme {
+  /* Headings. Deliberately not the wordmark face. */
+  --font-display: "Encode Sans Expanded", system-ui, sans-serif;
+  --font-body: "Space Grotesk Variable", system-ui, sans-serif;
+
+  --radius-card: 0.25rem;
+
+  /* A short confirmation sliding up into place (the player bar's notice). Reduced motion turns it off in base.css. */
+  --animate-notice-in: notice-in 0.2s ease-out;
+  @keyframes notice-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+:root {
+  color-scheme: dark;
+}
+
+/* Metal-filled display type */
+.text-metal {
+  background: var(--grad-metal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.text-accent-gradient {
+  background: var(--grad-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

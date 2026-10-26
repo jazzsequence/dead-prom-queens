@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "debut",
+    "title": "Debut Album",
+    "kind": "LP",
+    "year": 2026,
+    "cover": "/images/placeholder-cover.png",
+    "blurb": "Placeholder text about the band's first album. Replace it in data/albums.json.",
+    "featured": true,
+    "gallery": [
+      {
+        "src": "/images/placeholder-wide.png",
+        "alt": "Placeholder back cover",
+        "width": 1600,
+        "height": 900
+      }
+    ],
+    "tracks": [
+      {
+        "number": 1,
+        "slug": "first-song",
+        "title": "First Song"
+      },
+      {
+        "number": 2,
+        "slug": "second-song",
+        "title": "Second Song"
+      },
+      {
+        "number": 3,
+        "slug": "third-song",
+        "title": "Third Song"
+      }
+    ]
+  },
+  {
+    "slug": "first-ep",
+    "title": "First EP",
+    "kind": "EP",
+    "year": 2025,
+    "cover": "/images/placeholder-cover.png",
+    "blurb": "Placeholder text about an earlier release.",
+    "featured": false,
+    "tracks": [
+      {
+        "number": 1,
+        "slug": "opening-track",
+        "title": "Opening Track"
+      },
+      {
+        "number": 2,
+        "slug": "closing-track",
+        "title": "Closing Track"
+      }
+    ]
+  },
+  {
+    "slug": "unreleased",
+    "title": "Unreleased",
+    "kind": "Unreleased",
+    "cover": "/images/placeholder-cover.png",
+    "blurb": "Recordings that have not been released yet.",
+    "featured": false,
+    "tracks": [
+      {
+        "number": 1,
+        "slug": "work-in-progress",
+        "title": "Work in Progress"
+      }
+    ]
+  }
+]

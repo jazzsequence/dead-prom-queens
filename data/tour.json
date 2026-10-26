@@ -1,0 +1,4 @@
+[
+  { "id": "sample-city-2027-03-12", "date": "2027-03-12", "city": "Sample City, CA", "venue": "Example Hall", "address": "1 Main St", "doors": "8:00 PM", "price": 20, "status": "on-sale", "lat": 36.7783, "lon": -119.4179 },
+  { "id": "sample-town-2027-03-14", "date": "2027-03-14", "city": "Sample Town, OR", "venue": "Placeholder Theatre", "address": "2 Main St", "capacity": "400", "doors": "7:00 PM", "price": 25, "status": "sold-out", "lat": 44.0, "lon": -120.5 }
+]

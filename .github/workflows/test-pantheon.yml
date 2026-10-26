@@ -1,0 +1,102 @@
+name: Test
+
+# Runs entirely on the runner: lint, typecheck, unit tests, a production build with placeholder
+# credentials and axe/keyboard e2e. It needs no secrets and no Pantheon environment. Storybook is built
+# by storybook-preview.yml on every PR, so it is not repeated here.
+# There is deliberately no "test the deployed site" job: a template has no site to deploy, and the
+# job would fail every PR. A site built from the template can add one back (wait for pr-N, check 200).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  local:
+    name: Test (no Pantheon)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # One failing check must not hide the others; the run goes red at the final gate.
+      - name: Lint
+        id: lint
+        continue-on-error: true
+        run: pnpm lint
+
+      - name: Typecheck
+        id: typecheck
+        continue-on-error: true
+        run: pnpm typecheck
+
+      - name: Unit tests
+        id: unit-tests
+        continue-on-error: true
+        run: pnpm test
+        env:
+          CI: true
+
+      # Placeholders: the build only needs the variables to exist, and the site makes no P1 requests
+      # with them (lib/site/p1-config.ts), so CI renders the repo copies and no real token belongs here.
+      - name: Build
+        id: build
+        continue-on-error: true
+        run: pnpm build
+        env:
+          NEXT_PUBLIC_CSS_SITE_ID: 00000000-0000-0000-0000-000000000000
+          # Nothing listens here, so even a missed guard (lib/site/p1-config.ts) cannot reach the real P1 backend.
+          NEXT_PUBLIC_CSS_BASE_URL: http://127.0.0.1:9
+          CSS_API_KEY: ci-placeholder
+
+      # Runs axe (WCAG 2.2 AA + best practices) and keyboard/focus/skip-link checks against the
+      # standalone server that `pnpm build` just produced, on desktop and mobile viewports.
+      # Audio credentials are absent here, so tracks render in their "Coming soon" state.
+      - name: End-to-end and accessibility checks
+        id: a11y
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        run: |
+          pnpm exec playwright install --with-deps chromium
+          pnpm test:e2e
+        env:
+          CI: true
+          NEXT_PUBLIC_CSS_SITE_ID: 00000000-0000-0000-0000-000000000000
+          NEXT_PUBLIC_CSS_BASE_URL: http://127.0.0.1:9
+          CSS_API_KEY: ci-placeholder
+
+      - name: Upload accessibility report
+        if: steps.a11y.outcome == 'failure'
+        uses: actions/upload-artifact@v7
+        with:
+          name: a11y-test-results
+          path: test-results/
+          if-no-files-found: ignore
+
+      - name: Report status
+        if: always()
+        run: |
+          {
+            echo "### Local test results (no Pantheon environment)"
+            echo ""
+            echo "- **Lint:** ${{ steps.lint.outcome == 'success' && '✅ Passed' || '❌ Failed' }}"
+            echo "- **Typecheck:** ${{ steps.typecheck.outcome == 'success' && '✅ Passed' || '❌ Failed' }}"
+            echo "- **Unit tests:** ${{ steps.unit-tests.outcome == 'success' && '✅ Passed' || '❌ Failed' }}"
+            echo "- **Build:** ${{ steps.build.outcome == 'success' && '✅ Passed' || '❌ Failed' }}"
+            echo "- **Accessibility (axe, keyboard, focus):** ${{ steps.a11y.outcome == 'success' && '✅ Passed' || '❌ Failed' }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail workflow if any checks failed
+        if: steps.lint.outcome != 'success' || steps.typecheck.outcome != 'success' || steps.unit-tests.outcome != 'success' || steps.build.outcome != 'success' || steps.a11y.outcome != 'success'
+        run: exit 1
