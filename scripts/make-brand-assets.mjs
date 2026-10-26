@@ -5,11 +5,14 @@
  * public/icons/   icon-192.png, icon-512.png, icon-maskable-512.png   (referenced by app/manifest.ts)
  * public/og-default.png   1200x630 social card
  *
- * The mark is the band name's first letter in Unbounded on the site's darkest surface with an accent bar, and the
- * card is the name on a surface gradient. Name and colours come from band.config.json and the generated theme
- * (run `pnpm theme` first if you changed the palette), so a re-themed band gets matching assets.
+ * The mark is the band name's first letter on the site's darkest surface with an accent bar, and the card is the
+ * name on a surface gradient. Name and colours come from band.config.json and the generated theme (run `pnpm theme`
+ * first if you changed the palette), so a re-themed band gets matching assets.
+ *
+ * The face is the band's own wordmark when typography.customFaces.wordmark.source names a font file under docs/fonts/
+ * (gitignored: the font is never committed, only what is drawn with it), otherwise Unbounded.
  */
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
 
@@ -19,9 +22,30 @@ import opentype from "opentype.js";
 const require = createRequire(import.meta.url);
 const unbounded = (file) =>
   path.join(path.dirname(require.resolve("@fontsource-variable/unbounded/package.json")), "files", file);
-const fontData = readFileSync(unbounded("unbounded-latin-wght-normal.woff2")).toString("base64");
 
-const { band } = JSON.parse(readFileSync("band.config.json", "utf8"));
+const { band, typography } = JSON.parse(readFileSync("band.config.json", "utf8"));
+
+// The face the marks are drawn in. `outline` is what opentype.js reads for the SVG favicon (it reads WOFF and TTF, not
+// WOFF2); `embed` is what the browser renders the PNGs from. Unbounded is wide, bold and set tight in capitals; a custom
+// face is one weight, set as typed with normal tracking, like the Wordmark component.
+function chooseFace() {
+  const custom = typography?.customFaces?.wordmark;
+  if (!custom?.source) {
+    const staticFont = path.join(path.dirname(require.resolve("@fontsource/unbounded/package.json")), "files/unbounded-latin-800-normal.woff");
+    return {
+      embed: `url(data:font/woff2;base64,${readFileSync(unbounded("unbounded-latin-wght-normal.woff2")).toString("base64")})`,
+      weightRange: "200 900", weight: 800, spacing: "-0.05em", transform: "uppercase", outline: readFileSync(staticFont), iconScale: 1, iconShift: "-1%, -6%",
+    };
+  }
+  const file = path.join("docs/fonts", custom.source);
+  if (!existsSync(file)) {
+    throw new Error(`typography.customFaces.wordmark.source is "${custom.source}" but ${file} is missing. Put the original font file there (docs/ is gitignored and the font is never committed), or remove "source" to draw with Unbounded.`);
+  }
+  const bytes = readFileSync(file);
+  const format = /\.otf$/i.test(file) ? "opentype" : "truetype";
+  return { embed: `url(data:font/${format === "opentype" ? "otf" : "ttf"};base64,${bytes.toString("base64")}) format("${format}")`, weightRange: "400", weight: 400, spacing: "0", transform: "none", outline: bytes, custom: true, iconScale: 1.3, iconShift: "-1%, -12%" };
+}
+const FACE = chooseFace();
 const theme = readFileSync("design-system/theme.generated.css", "utf8");
 const token = (name) => theme.match(new RegExp(`--color-${name}: (#[0-9a-f]{6});`))?.[1] ?? (() => { throw new Error(`--color-${name} not found in theme.generated.css; run pnpm theme`); })();
 const INK = token("void");
@@ -32,17 +56,22 @@ const ACCENT = token("accent");
 const NAME = band.name;
 const INITIAL = [...NAME][0].toUpperCase();
 const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
-// Unbounded is wide; shrink the card title so a long name still fits inside the margins.
-const TITLE_SIZE = Math.max(56, Math.min(168, Math.floor(1056 / ([...NAME].length * 0.9))));
+const parseFont = (buf) => opentype.parse(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength));
+const font = parseFont(FACE.outline);
+// Shrink the card title so a long name still fits inside the margins: measured from the face's own advances for a
+// custom face; Unbounded, which is wide, keeps the estimate it has always used.
+const TITLE_SIZE = FACE.custom
+  ? Math.max(56, Math.min(168, Math.floor(1056 / font.getAdvanceWidth(NAME, 1))))
+  : Math.max(56, Math.min(168, Math.floor(1056 / ([...NAME].length * 0.9))));
 
-const fontFace = `@font-face { font-family: U; src: url(data:font/woff2;base64,${fontData}); font-weight: 200 900; }`;
+const fontFace = `@font-face { font-family: U; src: ${FACE.embed}; font-weight: ${FACE.weightRange}; }`;
 
 const iconHtml = (size, { round, scale }) => `<!doctype html><meta charset="utf-8"><style>
   ${fontFace}
   html, body { margin: 0; background: transparent; }
   .icon { width: ${size}px; height: ${size}px; background: ${INK}; position: relative; overflow: hidden;
     display: grid; place-items: center; border-radius: ${round ? size * 0.2 : 0}px; }
-  .icon span { font: 800 ${size * scale}px/1 U; color: ${METAL_HI}; letter-spacing: -0.05em; transform: translate(-1%, -6%); }
+  .icon span { font: ${FACE.weight} ${size * scale * FACE.iconScale}px/1 U; color: ${METAL_HI}; letter-spacing: ${FACE.spacing}; transform: translate(${FACE.iconShift}); }
   .icon i { position: absolute; left: 0; right: 0; bottom: 0; height: ${size * 0.13}px; background: ${ACCENT}; }
 </style><div class="icon"><span>${esc(INITIAL)}</span><i></i></div>`;
 
@@ -50,7 +79,7 @@ const ogHtml = `<!doctype html><meta charset="utf-8"><style>
   ${fontFace}
   html, body { margin: 0; }
   .card { width: 1200px; height: 630px; position: relative; overflow: hidden; background: linear-gradient(135deg, ${INK} 0%, ${SURFACE} 45%, ${RAISED} 100%); }
-  .card h1 { position: absolute; left: 72px; right: 72px; bottom: 64px; margin: 0; font: 800 ${TITLE_SIZE}px/1 U; letter-spacing: -0.05em; text-transform: uppercase; color: ${METAL_HI}; }
+  .card h1 { position: absolute; left: 72px; right: 72px; bottom: 64px; margin: 0; font: ${FACE.weight} ${TITLE_SIZE}px/1 U; letter-spacing: ${FACE.spacing}; text-transform: ${FACE.transform}; color: ${METAL_HI}; }
   .card .bar { position: absolute; left: 72px; bottom: 40px; width: 150px; height: 8px; background: ${ACCENT}; }
 </style><div class="card"><h1>${esc(NAME)}</h1><div class="bar"></div></div>`;
 
@@ -58,7 +87,7 @@ const browser = await chromium.launch();
 const shoot = async (html, w, h, selector) => {
   const page = await browser.newPage({ viewport: { width: w, height: h } });
   await page.setContent(html);
-  await page.evaluate(() => document.fonts.load("800 64px U"));
+  await page.evaluate((weight) => document.fonts.load(`${weight} 64px U`), FACE.weight);
   await page.evaluate(() => document.fonts.ready);
   const buf = await page.locator(selector).screenshot({ omitBackground: true, type: "png" });
   await page.close();
@@ -76,15 +105,9 @@ writeFileSync("public/icons/icon-512.png", await icon(512));
 writeFileSync("public/icons/icon-maskable-512.png", await icon(512, { round: false, scale: 0.5 }));
 writeFileSync("public/og-default.png", await shoot(ogHtml, 1200, 630, ".card"));
 
-// SVG favicon: outline the glyph so it does not depend on the font being installed.
-// opentype.js reads WOFF but not WOFF2, so this uses the static 800 weight from @fontsource/unbounded.
-const staticFont = path.join(
-  path.dirname(require.resolve("@fontsource/unbounded/package.json")),
-  "files/unbounded-latin-800-normal.woff",
-);
-const raw = readFileSync(staticFont);
-const font = opentype.parse(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.byteLength));
-const fontSize = 512 * 0.64;
+// SVG favicon: outline the glyph so it does not depend on the font being installed. `font` is the face parsed above
+// (opentype.js reads WOFF and TTF, not WOFF2, which is why Unbounded's static 800 weight is used for it).
+const fontSize = 512 * 0.64 * FACE.iconScale;
 const glyph = font.getPath(INITIAL, 0, 0, fontSize);
 const box = glyph.getBoundingBox();
 // Centre horizontally, and sit slightly above centre to leave room for the bar (matches the PNGs).
