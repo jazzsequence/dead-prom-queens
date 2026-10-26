@@ -123,3 +123,67 @@ describe("features switch sections off", () => {
     vi.resetModules();
   });
 });
+
+describe("typography.customFaces", () => {
+  const faces = () => ({
+    baseUrl: "https://files.example.com/fonts/",
+    wordmark: { family: "Broken 15", file: "broken15.woff2", source: "BROKEN15.TTF" },
+    accent: { family: "Selfish", file: "selfish.woff2" },
+  });
+  const withFaces = (customFaces: unknown) => {
+    const c = clone();
+    c.typography.customFaces = customFaces;
+    return c;
+  };
+
+  it("is optional, and a config without it still loads", () => {
+    expect(parseBandConfig(valid).typography.customFaces).toBeUndefined();
+  });
+
+  it("accepts a bucket base URL and one or both faces, dropping a trailing slash", () => {
+    const parsed = parseBandConfig(withFaces(faces())).typography.customFaces;
+    expect(parsed).toEqual({ ...faces(), baseUrl: "https://files.example.com/fonts" });
+    const accentOnly = faces();
+    delete (accentOnly as { wordmark?: unknown }).wordmark;
+    expect(problems(withFaces(accentOnly))).toBe("");
+  });
+
+  it("rejects what would end up unsafe in generated CSS or a URL", () => {
+    const bad = faces();
+    bad.wordmark.family = 'Broken"; } body { display: none';
+    bad.wordmark.file = "../broken15.woff2";
+    bad.wordmark.source = "broken15.exe";
+    bad.accent.file = "selfish.ttf";
+    bad.baseUrl = "http://files.example.com";
+    const out = problems(withFaces(bad));
+    expect(out).toContain("typography.customFaces.baseUrl must be an https:// URL");
+    expect(out).toContain("typography.customFaces.wordmark.family must be 1-60 letters, digits, spaces or hyphens");
+    expect(out).toContain("typography.customFaces.wordmark.file must be a plain .woff2 file name");
+    expect(out).toContain("typography.customFaces.wordmark.source must be a plain .ttf or .otf file name when present");
+    expect(out).toContain("typography.customFaces.accent.file must be a plain .woff2 file name");
+  });
+
+  it("rejects a base URL that could close the url() in the generated stylesheet", () => {
+    for (const baseUrl of [
+      'https://a.com/");}body{display:none}/*',
+      'https://a"b.com',
+      "https://a.com/fonts\\",
+      "https://u:p@a.com/x",
+      "https://a.com/fonts?x=1",
+      "https://a.com/fonts#x",
+      "https://a.com/f onts",
+    ]) {
+      expect(problems(withFaces({ ...faces(), baseUrl })), baseUrl).toContain("typography.customFaces.baseUrl must be an https:// URL");
+    }
+  });
+
+  it("accepts a port and a nested path", () => {
+    expect(problems(withFaces({ ...faces(), baseUrl: "https://files.example.com:8443/assets/fonts" }))).toBe("");
+  });
+
+  it("needs at least one face and knows only its own keys", () => {
+    expect(problems(withFaces({ baseUrl: "https://files.example.com" }))).toContain("typography.customFaces needs a wordmark or an accent face");
+    expect(problems(withFaces({ ...faces(), body: {} }))).toContain("typography.customFaces.body is not known");
+    expect(problems(withFaces("Broken 15"))).toContain("typography.customFaces must be an object");
+  });
+});
