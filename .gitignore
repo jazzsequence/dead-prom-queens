@@ -25,3 +25,9 @@ reviewer-approved
 
 # MapLibre worker files copied from node_modules by scripts/copy-maplibre-worker.mjs
 /public/maplibre/
+
+# Editors and extensions leave temp copies of .env beside it (1793047789286-.env); none may be committed.
+*.env
+
+# The Codacy extension's working files.
+.codacy/
