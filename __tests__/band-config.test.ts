@@ -137,7 +137,10 @@ describe("typography.customFaces", () => {
   };
 
   it("is optional, and a config without it still loads", () => {
-    expect(parseBandConfig(valid).typography.customFaces).toBeUndefined();
+    const c = clone();
+    delete c.typography.customFaces;
+    expect(problems(c)).toBe("");
+    expect(parseBandConfig(c).typography.customFaces).toBeUndefined();
   });
 
   it("accepts a bucket base URL and one or both faces, dropping a trailing slash", () => {
