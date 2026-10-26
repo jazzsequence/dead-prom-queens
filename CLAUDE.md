@@ -14,8 +14,8 @@ Recorded by `/init-band` on 2026-10-26. Change them in `band.config.json` (then 
 
 - **Band:** Dead Prom Queens, a fictional act (pages never present it as real). Trash goth post-punk. Black dresses, dead flowers, no encore.
 - **Sections on:** Merch, Lyrics. **Off:** Tour and tickets, Tour map, Press; their routes return 404 and they drop out of the nav, sitemap and `llms.txt`.
-- **Type:** wordmark face off (display face, as typed); blackletter kicker accent off. The band's real faces are Broken15 (wordmark) and Selfish (script accent, sparing and never small), both by Misprinted Type. `typography.wordmarkFace`/`accentFace` can only select Unbounded/UnifrakturCook, so custom-font support is a queued design PR (a `design-<topic>` branch, see "Design approval workflow"), not part of setup. Their licence allows use in the site's static layout but forbids embedding where visitors can type with the font or using it to produce products, so never offer them as an editor font choice or in an input, and check the licence covers a public repo before committing the TTFs.
-- **Icons and social card are held.** `app/icon.*`, `app/apple-icon.png`, `app/favicon.ico`, `public/icons/` and `public/og-default.png` are still the template's, because the generator (`scripts/make-brand-assets.mjs`) draws the band name in Unbounded. Regenerate them (`pnpm theme && node scripts/make-brand-assets.mjs`) only after the font PR lands, in Broken15. That PR must therefore also change `scripts/make-brand-assets.mjs`, which hard-codes Unbounded (the icon and card font, plus the static `@fontsource/unbounded` outline used for the SVG favicon), to draw the name in the band's face. If it changes the "Unbounded, capitals" wording in `lib/init/claude-md.ts`, it must update `__tests__/init-claude-md.test.ts` too. The placeholder images (`public/images/`) are solid colours with no text, so they are already in the palette.
+- **Type:** the built-in faces (`typography.wordmarkFace`/`accentFace`: Unbounded and UnifrakturCook) are off. The band's own faces are set through `typography.customFaces`: Broken 15 (wordmark) and Selfish (script accent), both by Misprinted Type, served as WOFF2 from the files bucket (`files.deadpromqueens.jazzsequence.com/fonts/`) and never committed. See "Custom faces" below for how they work and the licence limits.
+- **Icons and social card are drawn in Broken 15** (`app/icon.*`, `app/apple-icon.png`, `app/favicon.ico`, `public/icons/`, `public/og-default.png`), by `pnpm theme && node scripts/make-brand-assets.mjs`. The script reads the original font from the gitignored `docs/fonts/<customFaces.wordmark.source>` (`BROKEN15.TTF`); that file is not in git and the bucket holds only the WOFF2s, so it has to be restored from the owner's copy before regenerating. With no `source` configured it draws in Unbounded. Changing the wordmark face means regenerating them. The placeholder images (`public/images/`) are solid colours with no text, so they only follow the palette.
 - **Palette:** see `band.config.json`; the gate needed no adjustments.
 - **Hosting:** Pantheon site `dead-prom-queens`; P1 site `a5773c86-3c93-46ed-9450-8f363b7f0982`; audio served from https://files.deadpromqueens.jazzsequence.com.
 - **Workflows installed:** `test-deployed-site.yml`, `sync-puck-registry.yml`.
@@ -165,7 +165,7 @@ account, which Claude must not run without being given credentials. `security.tx
 (`content/p1-pages/privacy.json`), the page's code fallback, and the published P1 `/privacy` page (a live edit, so it needs the owner's go-ahead). The tour map is the
 first such case: the CSP in `next.config.ts` allows `connect-src https://tile.openstreetmap.org` (`img-src` already allows `https:`, and the worker is same-origin so
 `script-src 'self'` covers it), and the Privacy page has a "The map" section saying it contacts OpenStreetMap, which sees the visitor's IP address, and only after they click
-Show map. A published P1 `/privacy` page is a separate copy, so any later change to this text has to be made in P1 as well.
+Show map. A published P1 `/privacy` page is a separate copy, so any later change to this text has to be made in P1 as well. The band's two display fonts are the second case: they load from the Cloudflare-served files bucket, so the page says Cloudflare also sees a request when a page loads them.
 
 ## CI / deployment
 
@@ -220,4 +220,21 @@ Squashing either design-flow leg is what produced repeated conflicts on the appl
 Type: headings use Encode Sans Expanded 800 at about -0.04em (`--font-display`) and body copy Space Grotesk. The wordmark face (Unbounded, capitals,
 -0.05em) and the blackletter accent for kickers (UnifrakturCook) are optional choices in `band.config.json` (`typography.wordmarkFace`,
 `typography.accentFace`); when off, those roles fall back to the display face, so components never need to know which was chosen. Where a wordmark face
-is chosen it is for the name only, in flat colour; never set the name in the blackletter face.
+is chosen it is for the name only, in flat colour; never set the name in the blackletter face. A custom face (below) replaces the built-in one for its role.
+
+## Custom faces
+
+`typography.customFaces` in `band.config.json` names the band's own faces: a `baseUrl` and a `wordmark` and/or `accent` face (`family`, `file`, and an optional
+`source`). A custom face replaces the built-in one for its role only. `pnpm theme` emits its `@font-face` (one weight, `font-display: swap`) and points `--font-wordmark`
+and `--font-gothic` at it, falling back to the display face while it loads or if the bucket is unreachable. The parser (`lib/band/config.ts`) holds every value to a plain
+alphabet because it ends up in generated CSS and a URL, and `renderThemeCss` refuses an unsafe URL or family itself.
+
+- **Not in git, and why.** Misprinted Type's licence allows use in the site's layout, but forbids embedding where visitors can type with the font and asks for permission
+  to produce products or artwork with it. So the WOFF2s live in the files bucket (`fonts/broken15.woff2`, `fonts/selfish.woff2`), the original TTFs stay in the gitignored
+  `docs/fonts/`, and the faces are never an editor font choice or used in an input. The owner decided the icons and social card are drawn in Broken 15 after that was raised.
+- **What it depends on.** The CSP `font-src` allows the origin of `baseUrl` only (`next.config.ts`; `__tests__/csp-font-src.test.ts`). The bucket's CORS rule must list the
+  production domain, the Pantheon environments (`dev-`, `test-`, `live-` and `pr-*-dead-prom-queens.pantheonsite.io`), the GitHub Pages Storybook origin and localhost, or the
+  browser silently falls back to the display face. e2e and local runs from `127.0.0.1` therefore render the fallback, by design.
+- **How each face is set.** The wordmark is normal weight (one weight, so no faux bold), normal tracking, as typed, and `text-3xl` in the header (Broken 15 is busy at 24px). Kickers
+  (`font-gothic`) in Selfish must be at least `text-2xl` (24px), because it is a script that is poor at 16px: `__tests__/accent-face-size.test.ts` fails closed otherwise.
+- **Changing a face.** Upload the WOFF2 to the bucket, edit `customFaces`, run `pnpm theme`, restore the original font to `docs/fonts/` and run `node scripts/make-brand-assets.mjs`.

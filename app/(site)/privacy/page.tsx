@@ -36,8 +36,9 @@ function PrivacyFallback() {
           <p>
             Every website is delivered by someone. Pantheon hosts the pages and, like any host, keeps ordinary server
             logs that include your IP address and what you requested. Songs are served from Cloudflare, which sees a
-            request each time you play or download one. Fonts and images are served from this site itself, not from a
-            third party. The one exception is the optional map, below.
+            request each time you play or download one. The band&apos;s two display fonts come from the same place, so
+            Cloudflare also sees a request when a page loads them. All other fonts and the images are served from this
+            site itself, not from a third party. The one exception is the optional map, below.
           </p>
         </section>
         <section className="space-y-3">

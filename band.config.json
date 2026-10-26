@@ -18,7 +18,20 @@
   },
   "typography": {
     "wordmarkFace": false,
-    "accentFace": false
+    "accentFace": false,
+    "customFaces": {
+      "baseUrl": "https://files.deadpromqueens.jazzsequence.com/fonts",
+      "wordmark": {
+        "family": "Broken 15",
+        "file": "broken15.woff2",
+        "source": "BROKEN15.TTF"
+      },
+      "accent": {
+        "family": "Selfish",
+        "file": "selfish.woff2",
+        "source": "SELFISH.TTF"
+      }
+    }
   },
   "setup": {
     "initialized": true
