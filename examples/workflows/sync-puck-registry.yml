@@ -44,6 +44,11 @@ concurrency:
   group: sync-puck-registry-${{ github.ref }}
   cancel-in-progress: true
 
+# The job only checks out the repo and runs a script against the backend with its own secrets,
+# so the workflow token needs no more than read access to contents.
+permissions:
+  contents: read
+
 jobs:
   sync-registry:
     # Dependabot runs only see Dependabot secrets, not the repo secrets above, so the sync would fail on missing credentials.
