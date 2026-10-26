@@ -21,6 +21,8 @@ function tempRepo() {
     cpSync(join(repo, f), join(root, f));
   }
   cpSync(join(repo, "__tests__/fixtures/claude-template.md"), join(root, "CLAUDE.md"));
+  // The repo's own home.json loses its tour blocks once a band turns the tour off, so the template's copy is a fixture.
+  cpSync(join(repo, "__tests__/fixtures/home-template.json"), join(root, "content/p1-pages/home.json"));
   const config = JSON.parse(text(root, "band.config.json"));
   config.setup = { initialized: false };
   delete config.hosting;

@@ -2,8 +2,8 @@
   "path": "/",
   "root": {
     "props": {
-      "title": "Your Band",
-      "description": "A sentence or two about the band, used for search results and social cards."
+      "title": "Dead Prom Queens",
+      "description": "Trash goth post-punk fronted by Cilla Hex, with Dead Wren Walking and Ellis Static."
     }
   },
   "content": [
@@ -17,27 +17,11 @@
         "blurb": "The latest release.",
         "actions": [
           {
-            "label": "Tour dates",
-            "href": "/tour",
-            "style": "primary"
-          },
-          {
             "label": "Listen",
             "href": "/listen",
             "style": "outline"
           }
         ]
-      }
-    },
-    {
-      "type": "TourPreviewBlock",
-      "props": {
-        "id": "TourPreviewBlock-2",
-        "kicker": "On the road",
-        "heading": "Tour dates",
-        "count": 4,
-        "linkLabel": "All dates",
-        "linkHref": "/tour"
       }
     },
     {
