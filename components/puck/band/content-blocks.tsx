@@ -89,7 +89,7 @@ export const articleBlock = {
   render: ({ kicker, markdown }: { kicker?: string; markdown?: string }) => (
     <div className="mx-auto w-full max-w-3xl px-6 py-14">
       {kicker ? <p className="mb-2 font-display text-base uppercase tracking-[0.25em] text-accent md:text-lg">{kicker}</p> : null}
-      <article className={`prose prose-invert max-w-none prose-headings:font-display prose-headings:font-extrabold prose-headings:uppercase prose-headings:tracking-[-0.03em] prose-h2:text-2xl prose-h2:text-text prose-p:text-muted prose-strong:text-text prose-a:text-accent-3 ${ARTICLE_TITLE}`}>
+      <article className={`prose prose-invert max-w-none prose-headings:font-display prose-headings:font-normal prose-headings:uppercase prose-headings:tracking-[0.04em] prose-h2:text-2xl prose-h2:text-text prose-p:text-muted prose-strong:text-text prose-a:text-accent-3 ${ARTICLE_TITLE}`}>
         <Markdown>{markdown ?? ""}</Markdown>
       </article>
     </div>

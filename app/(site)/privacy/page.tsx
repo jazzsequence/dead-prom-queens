@@ -18,21 +18,21 @@ function PrivacyFallback() {
       <SectionHeading as="h1" kicker="Your data">Privacy</SectionHeading>
       <div className="space-y-8 text-lg leading-8 text-muted">
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-extrabold uppercase tracking-[-0.02em] text-text">What we collect</h2>
+          <h2 className="font-display text-2xl uppercase tracking-[0.04em] text-text">What we collect</h2>
           <p>
             Nothing. This site sets no cookies, runs no analytics or advertising trackers, has no accounts and no
             sign-up forms, and does not store anything about you in your browser.
           </p>
         </section>
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-extrabold uppercase tracking-[-0.02em] text-text">Tickets</h2>
+          <h2 className="font-display text-2xl uppercase tracking-[0.04em] text-text">Tickets</h2>
           <p>
             The ticket page is a demonstration. The name you type is placed in the address of your ticket page so it can
             be shown back to you, and is not sent to or kept by anyone. No payment details are asked for or taken.
           </p>
         </section>
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-extrabold uppercase tracking-[-0.02em] text-text">Who can see your visit</h2>
+          <h2 className="font-display text-2xl uppercase tracking-[0.04em] text-text">Who can see your visit</h2>
           <p>
             Every website is delivered by someone. Pantheon hosts the pages and, like any host, keeps ordinary server
             logs that include your IP address and what you requested. Songs are served from Cloudflare, which sees a
@@ -42,7 +42,7 @@ function PrivacyFallback() {
           </p>
         </section>
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-extrabold uppercase tracking-[-0.02em] text-text">The map</h2>
+          <h2 className="font-display text-2xl uppercase tracking-[0.04em] text-text">The map</h2>
           <p>
             The tour pages can show a map. It is off until you press Show map, and until then nothing is requested from
             anyone. When you press it, your browser asks OpenStreetMap, run by the OpenStreetMap Foundation, for the map
@@ -55,14 +55,14 @@ function PrivacyFallback() {
           </p>
         </section>
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-extrabold uppercase tracking-[-0.02em] text-text">Listening</h2>
+          <h2 className="font-display text-2xl uppercase tracking-[0.04em] text-text">Listening</h2>
           <p>
             What you play is not recorded by this site. The player lives only in your open tab and disappears when you
             close it.
           </p>
         </section>
         <section className="space-y-3">
-          <h2 className="font-display text-2xl font-extrabold uppercase tracking-[-0.02em] text-text">Editors</h2>
+          <h2 className="font-display text-2xl uppercase tracking-[0.04em] text-text">Editors</h2>
           <p>
             The people who maintain the site sign in to a separate editor, which uses cookies to keep them signed in.
             Visitors never see or receive them.
