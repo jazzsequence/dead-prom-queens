@@ -34,7 +34,7 @@ export default async function Tickets({ params }: Props) {
       <Breadcrumbs trail={[{ name: "Home", href: "/" }, { name: "Tour", href: "/tour" }, { name: show.city, href: `/tickets/${show.id}` }]} />
       <SectionHeading as="h1" kicker="Tickets">{show.city}</SectionHeading>
       <div className="space-y-1">
-        <p className="font-display text-xl font-extrabold uppercase tracking-[-0.02em]">{show.venue}</p>
+        <p className="font-display text-xl uppercase tracking-[0.04em]">{show.venue}</p>
         <p className="text-muted">
           {longDate(show.date)} · Doors {show.doors}
         </p>

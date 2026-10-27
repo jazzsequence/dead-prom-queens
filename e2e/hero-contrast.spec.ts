@@ -12,8 +12,8 @@ import { token } from "./helpers/config";
 const SIZES: [number, number][] = [[360, 640], [390, 844], [430, 932], [768, 1024], [1024, 768], [1280, 720], [1440, 900], [1920, 1080]];
 const NEED = { kicker: 3, title: 3, blurb: 4.5 } as const; // large text 3:1, body text 4.5:1
 const hex = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
-// The title is a metal gradient: its darkest stop is the worst case.
-const TEXT: Record<string, number[]> = { kicker: hex(token("accent")), title: hex(token("metal-lo")) };
+// The kicker is the accent colour; the title is flat text colour, so its computed colour is used.
+const TEXT: Record<string, number[]> = { kicker: hex(token("accent")) };
 
 const lum = ([r, g, b]: number[]) => {
   const f = (c: number) => ((c /= 255) <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
@@ -36,9 +36,10 @@ test("text over the hero photo meets contrast at every screen size", async ({ pa
 
     const boxes = await page.evaluate(() => {
       const hero = document.querySelector("section")!;
+      const paras = [...hero.querySelectorAll("p")]; // the kicker, then the blurb
       const els: Record<string, Element | undefined> = {
-        kicker: hero.querySelector("p.font-gothic") ?? undefined,
-        blurb: [...hero.querySelectorAll("p")].find((e) => !e.classList.contains("font-gothic")),
+        kicker: paras[0],
+        blurb: paras[1],
         title: hero.querySelector("h1") ?? undefined,
       };
       const out: Record<string, { x: number; y: number; w: number; h: number; color: string }> = {};

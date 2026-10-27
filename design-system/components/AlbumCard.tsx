@@ -30,13 +30,13 @@ export function AlbumCard({ title, year, cover, trackCount, featured, href = "#"
           className="size-full object-cover transition duration-500 group-hover:scale-105"
         />
         {featured && (
-          <span className="absolute left-3 top-3 bg-accent px-2 py-1 font-display text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-void">
+          <span className="absolute left-3 top-3 bg-accent px-2 py-1 font-display text-xs uppercase tracking-[0.2em] text-void">
             Latest
           </span>
         )}
       </div>
       <div className="space-y-1 p-4">
-        <Heading className="font-display text-lg font-semibold uppercase tracking-wide">{title}</Heading>
+        <Heading className="font-display text-lg uppercase tracking-wide">{title}</Heading>
         <p className="text-sm text-muted">
           {year ?? "Unreleased"}
           {trackCount > 0 && ` · ${trackCount} ${trackCount === 1 ? "track" : "tracks"}`}

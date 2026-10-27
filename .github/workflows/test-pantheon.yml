@@ -50,12 +50,14 @@ jobs:
 
       # Placeholders: the build only needs the variables to exist, and the site makes no P1 requests
       # with them (lib/site/p1-config.ts), so CI renders the repo copies and no real token belongs here.
+      # The site id is public (it is in the editor's URL), so the real one is used. The placeholder KEY is what keeps
+      # CI off P1: isP1Configured() is false for any key containing "placeholder", whatever the site id is.
       - name: Build
         id: build
         continue-on-error: true
         run: pnpm build
         env:
-          NEXT_PUBLIC_CSS_SITE_ID: 00000000-0000-0000-0000-000000000000
+          NEXT_PUBLIC_CSS_SITE_ID: a5773c86-3c93-46ed-9450-8f363b7f0982
           # Nothing listens here, so even a missed guard (lib/site/p1-config.ts) cannot reach the real P1 backend.
           NEXT_PUBLIC_CSS_BASE_URL: http://127.0.0.1:9
           CSS_API_KEY: ci-placeholder
@@ -72,7 +74,7 @@ jobs:
           pnpm test:e2e
         env:
           CI: true
-          NEXT_PUBLIC_CSS_SITE_ID: 00000000-0000-0000-0000-000000000000
+          NEXT_PUBLIC_CSS_SITE_ID: a5773c86-3c93-46ed-9450-8f363b7f0982
           NEXT_PUBLIC_CSS_BASE_URL: http://127.0.0.1:9
           CSS_API_KEY: ci-placeholder
 
