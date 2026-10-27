@@ -11,11 +11,11 @@ export function SectionHeading({
   return (
     <header className="space-y-2">
       {kicker && (
-        <p className="font-gothic text-2xl text-accent">
+        <p className="font-display text-base uppercase tracking-[0.25em] text-accent md:text-lg">
           {kicker}
         </p>
       )}
-      <Tag className="text-metal font-display text-4xl font-extrabold uppercase leading-none tracking-[-0.04em] md:text-6xl">
+      <Tag className="font-gothic text-5xl leading-none text-text md:text-7xl">
         {children}
       </Tag>
       <span className="block h-px w-24 bg-[image:var(--grad-accent)]" aria-hidden />

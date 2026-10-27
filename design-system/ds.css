@@ -13,8 +13,9 @@
  * outside the few allowlisted files.
  */
 @theme {
-  /* Headings. Deliberately not the wordmark face. */
-  --font-display: "Encode Sans Expanded", system-ui, sans-serif;
+  /* Eyebrows, small headings, nav and button labels: a typewriter face with one weight. Large headings use
+     --font-gothic (Selfish), never this one, and never the wordmark face. */
+  --font-display: "Special Elite", "Courier New", monospace;
   --font-body: "Space Grotesk Variable", system-ui, sans-serif;
 
   --radius-card: 0.25rem;
@@ -35,6 +36,8 @@
 
 :root {
   color-scheme: dark;
+  /* The display, wordmark and accent faces each have one weight: asking for bold would fake it, smeared. */
+  font-synthesis-weight: none;
 }
 
 /* Metal-filled display type */

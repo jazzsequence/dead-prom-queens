@@ -7,4 +7,5 @@ import "@fontsource/encode-sans-expanded/600.css";
 import "@fontsource/encode-sans-expanded/700.css";
 import "@fontsource/encode-sans-expanded/800.css";
 import "@fontsource-variable/space-grotesk";
+import "@fontsource/special-elite/400.css";
 import "@fontsource/unifrakturcook";

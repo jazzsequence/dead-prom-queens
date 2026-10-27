@@ -26,7 +26,7 @@ export function TicketCard({ order, name, quantity, city, venue, date, doors }: 
         <span className="absolute inset-x-0 top-0 h-1 bg-[image:var(--grad-accent)]" aria-hidden />
         <Wordmark />
         <div>
-          <h2 className="font-display text-2xl font-extrabold uppercase leading-tight tracking-[-0.03em]">{venue}</h2>
+          <h2 className="font-display text-2xl uppercase leading-tight tracking-[0.04em]">{venue}</h2>
           <p className="text-muted">{city}</p>
         </div>
         <dl className="grid grid-cols-2 gap-4 text-sm">
