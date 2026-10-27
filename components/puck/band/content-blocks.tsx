@@ -71,6 +71,10 @@ export const sectionHeadingBlock = {
   ),
 };
 
+// The page title in Selfish, as typed, like SectionHeading's h1 (the markdown `# Title`). Kept in its own literal so the
+// accent-face-size test can read the size it states.
+const ARTICLE_TITLE = "prose-h1:font-gothic prose-h1:text-5xl prose-h1:font-normal prose-h1:normal-case prose-h1:leading-none prose-h1:tracking-normal md:prose-h1:text-7xl";
+
 /**
  * Long text in Markdown: an interview, a policy. Use `# Title` once for the page's h1 and `## Heading` for
  * sections. Links, lists, quotes and emphasis all work.
@@ -84,8 +88,8 @@ export const articleBlock = {
   defaultProps: { kicker: "", markdown: "# Title\n\nWrite here." },
   render: ({ kicker, markdown }: { kicker?: string; markdown?: string }) => (
     <div className="mx-auto w-full max-w-3xl px-6 py-14">
-      {kicker ? <p className="mb-2 font-gothic text-2xl text-accent">{kicker}</p> : null}
-      <article className="prose prose-invert max-w-none prose-headings:font-display prose-headings:font-extrabold prose-headings:uppercase prose-headings:tracking-[-0.03em] prose-h1:text-4xl prose-h2:text-2xl prose-h2:text-text prose-p:text-muted prose-strong:text-text prose-a:text-accent-3">
+      {kicker ? <p className="mb-2 font-display text-base uppercase tracking-[0.25em] text-accent md:text-lg">{kicker}</p> : null}
+      <article className={`prose prose-invert max-w-none prose-headings:font-display prose-headings:font-normal prose-headings:uppercase prose-headings:tracking-[0.04em] prose-h2:text-2xl prose-h2:text-text prose-p:text-muted prose-strong:text-text prose-a:text-accent-3 ${ARTICLE_TITLE}`}>
         <Markdown>{markdown ?? ""}</Markdown>
       </article>
     </div>
