@@ -42,6 +42,18 @@ describe("the P1 page definitions", () => {
 });
 
 describe("blocks", () => {
+  it("the image gallery's one-column option is one wide picture, and 2 and 3 keep the grid", () => {
+    const items = [
+      { imageUrl: "/images/hero.jpg", alt: "A wide photo" },
+      { imageUrl: "/images/band-bw.jpg", alt: "Another photo" },
+    ];
+    const render = (columns: string) => renderToStaticMarkup(components.ImageGalleryBlock.render({ columns, items } as never));
+    expect(render("1")).not.toContain("grid-cols-");
+    expect(render("2")).toContain("sm:grid-cols-2");
+    expect(render("2")).not.toContain("md:grid-cols-3");
+    expect(render("3")).toContain("md:grid-cols-3");
+  });
+
   it("every block renders from its default props without throwing", async () => {
     const site = await getSiteData();
     for (const [name, block] of Object.entries(components)) {
