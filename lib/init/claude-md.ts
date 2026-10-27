@@ -23,14 +23,21 @@ function replaceBlock(text: string, name: string, replacement: string): string {
   return text.replace(block(name), () => replacement.trimEnd());
 }
 
-const FEATURE_LABELS = { tour: "Tour and tickets", merch: "Merch", lyrics: "Lyrics", map: "Tour map", press: "Press" } as const;
+const FEATURE_LABELS = { tour: "Tour and tickets", merch: "Merch", lyrics: "Lyrics", map: "Tour map", press: "Press", pressKit: "Press kit" } as const;
 
 export function renderClaudeMd(template: string, ctx: ClaudeMdContext): string {
   const { answers: a, date, adjustments, offLimitsCount, installed } = ctx;
   const id = a.identity;
   const on = (Object.keys(FEATURE_LABELS) as (keyof typeof FEATURE_LABELS)[]).filter((k) => a.features[k]).map((k) => FEATURE_LABELS[k]);
-  const off = (Object.keys(FEATURE_LABELS) as (keyof typeof FEATURE_LABELS)[]).filter((k) => !a.features[k]).map((k) => FEATURE_LABELS[k]);
   const host = a.hosting ?? {};
+  // The press kit is a P1-only page: its route is not gated, so it is kept out of the "routes return 404" sentence and gets its own.
+  const gatedOff = (Object.keys(FEATURE_LABELS) as (keyof typeof FEATURE_LABELS)[]).filter((k) => k !== "pressKit" && !a.features[k]).map((k) => FEATURE_LABELS[k]);
+  const offSentence = gatedOff.length
+    ? ` **Off:** ${gatedOff.join(", ")}; ${gatedOff.length > 1 ? "their routes return 404 and they drop" : "its route returns 404 and it drops"} out of the nav, sitemap and \`llms.txt\`.`
+    : "";
+  const kitSentence = a.features.pressKit
+    ? ""
+    : " **Press kit off:** it is a P1-only page, so this only removes its footer link and its sitemap and `llms.txt` entries; unpublish the page in P1 to take it down.";
 
   const intro = `${id.name} ${id.fictional ? "(a fictional act)" : "site"}. ${id.genre}. Next.js 16 + P1 (Puck), deployed to Pantheon${host.pantheonSite ? ` (\`${host.pantheonSite}\`)` : ""}.
 Everything band-specific comes from \`band.config.json\` (identity, which sections exist, type choices, palette, hosting, the location of the local
@@ -45,7 +52,7 @@ because the list itself would give the topics away. It has ${offLimitsCount} ${o
 Recorded by \`/init-band\` on ${date}. Change them in \`band.config.json\` (then \`pnpm theme\` if the palette or type changed), not here; this list is the why.
 
 - **Band:** ${id.name}${id.fictional ? ", a fictional act (pages never present it as real)" : ""}. ${id.tagline}
-- **Sections on:** ${on.length ? on.join(", ") : "none"}.${off.length ? ` **Off:** ${off.join(", ")}; their routes return 404 and they drop out of the nav, sitemap and \`llms.txt\`.` : ""}
+- **Sections on:** ${on.length ? on.join(", ") : "none"}.${offSentence}${kitSentence}
 - **Type:** wordmark face ${a.type.wordmarkFace ? "on (Unbounded, capitals)" : "off (display face, as typed)"}; blackletter kicker accent ${a.type.accentFace ? "on" : "off"}.
 - **Palette:** see \`band.config.json\`; the gate${adjustments.length ? ` lifted ${adjustments.map((x) => `\`${x.key}\``).join(", ")} for contrast (the config keeps the written value, the generated theme the lifted one)` : " needed no adjustments"}.
 - **Hosting:** ${host.pantheonSite ? `Pantheon site \`${host.pantheonSite}\`` : "Pantheon site not set yet"}; ${host.p1SiteId ? `P1 site \`${host.p1SiteId}\`` : "P1 site not set yet"}; audio ${a.audio?.baseUrl ? `served from ${a.audio.baseUrl}` : "host not set yet (`NEXT_PUBLIC_AUDIO_BASE_URL`)"}.
