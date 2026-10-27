@@ -1,5 +1,101 @@
 [
   {
+    "slug": "class-of-never",
+    "title": "Class of Never",
+    "kind": "LP",
+    "year": 1996,
+    "cover": "/images/placeholder-cover.png",
+    "blurb": "Prom-night deathrock, from the crowning to the last slow dance. Drum machines and handclaps, fuzzy bass, cheap synths, a four-track and plenty of tape hiss.",
+    "featured": false,
+    "tracks": [
+      {
+        "number": 1,
+        "slug": "crowned-and-buried",
+        "title": "Crowned & Buried"
+      },
+      {
+        "number": 2,
+        "slug": "teenage-embalmer",
+        "title": "Teenage Embalmer"
+      },
+      {
+        "number": 3,
+        "slug": "fog-machine-funeral",
+        "title": "Fog Machine Funeral"
+      },
+      {
+        "number": 4,
+        "slug": "yearbook-committee",
+        "title": "Yearbook Committee"
+      },
+      {
+        "number": 5,
+        "slug": "last-bart",
+        "title": "Last BART"
+      },
+      {
+        "number": 6,
+        "slug": "grave-robbers-daughter",
+        "title": "Grave Robber’s Daughter"
+      },
+      {
+        "number": 7,
+        "slug": "most-likely-to",
+        "title": "Most Likely To"
+      },
+      {
+        "number": 8,
+        "slug": "back-row-ghoul",
+        "title": "Back Row Ghoul"
+      },
+      {
+        "number": 9,
+        "slug": "pageant-of-the-damned",
+        "title": "Pageant of the Damned"
+      },
+      {
+        "number": 10,
+        "slug": "alien-prom",
+        "title": "Alien Prom"
+      },
+      {
+        "number": 11,
+        "slug": "chaperone",
+        "title": "Chaperone"
+      },
+      {
+        "number": 12,
+        "slug": "cheap-date-with-a-corpse",
+        "title": "Cheap Date With a Corpse"
+      },
+      {
+        "number": 13,
+        "slug": "sleepover",
+        "title": "Sleepover"
+      },
+      {
+        "number": 14,
+        "slug": "hex-me",
+        "title": "Hex Me"
+      },
+      {
+        "number": 15,
+        "slug": "rotten-corsage",
+        "title": "Rotten Corsage"
+      },
+      {
+        "number": 16,
+        "slug": "slow-dance-open-casket",
+        "title": "Slow Dance, Open Casket"
+      },
+      {
+        "number": 17,
+        "slug": "just-a-little-sip",
+        "title": "Just a Little Sip"
+      }
+    ]
+  },
+  {
     "slug": "debut",
     "title": "Debut Album",
     "kind": "LP",

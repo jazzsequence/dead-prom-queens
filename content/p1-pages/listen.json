@@ -19,6 +19,13 @@
     {
       "type": "AlbumSectionBlock",
       "props": {
+        "id": "AlbumSectionBlock-9",
+        "albumSlug": "class-of-never"
+      }
+    },
+    {
+      "type": "AlbumSectionBlock",
+      "props": {
         "id": "AlbumSectionBlock-6",
         "albumSlug": "debut"
       }
