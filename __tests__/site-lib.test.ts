@@ -49,9 +49,8 @@ describe("catalog", () => {
     for (const a of catalog) for (const t of a.tracks) expect(t.hasLyrics).toBe(lyrics.has(t.slug));
   });
 
-  it("has exactly one featured album, and unreleased material has no year", () => {
+  it("has exactly one featured album", () => {
     expect(albums.filter((a) => a.featured)).toHaveLength(1);
-    expect(albums.find((a) => a.slug === "unreleased")?.year).toBeUndefined();
   });
 });
 

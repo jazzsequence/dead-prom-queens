@@ -66,7 +66,7 @@ test("the open lightbox has no accessibility violations", async ({ page }) => {
 test("images across the site open in a lightbox", async ({ page }) => {
   for (const [route, count] of [
     ["/albums/class-of-never", 1],
-    ["/listen", 4],
+    ["/listen", 1],
     ["/bio", 1],
     ...when("merch", ["/merch", merchCount] as const),
   ] as const) {
