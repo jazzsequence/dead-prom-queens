@@ -43,7 +43,8 @@
     "merch": true,
     "lyrics": true,
     "map": true,
-    "press": false
+    "press": false,
+    "pressKit": true
   },
   "audio": {
     "baseUrl": "https://audio.neon-orchard.example.com"
