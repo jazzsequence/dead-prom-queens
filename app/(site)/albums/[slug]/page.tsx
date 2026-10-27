@@ -37,8 +37,8 @@ async function AlbumFallback({ params }: Props) {
       <div className="grid items-end gap-10 md:grid-cols-[20rem_1fr]">
         <LightboxImage src={album.cover} alt={`${album.title} cover art`} width={1024} height={1024} fetchPriority="high" className="w-full rounded-card border border-line" />
         <div className="space-y-5">
-          <p className="font-gothic text-3xl text-accent">{released ? album.kind : "Unreleased"}</p>
-          <h1 className="text-metal font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-[-0.04em] md:text-7xl">
+          <p className="font-display text-lg uppercase tracking-[0.25em] text-accent md:text-xl">{released ? album.kind : "Unreleased"}</p>
+          <h1 className="font-gothic text-6xl leading-[0.95] text-text md:text-8xl">
             {album.title}
           </h1>
           <p className="max-w-xl text-lg text-muted">{album.blurb}</p>
@@ -50,7 +50,7 @@ async function AlbumFallback({ params }: Props) {
         </div>
       </div>
       <section className="space-y-4">
-        <h2 className="font-display text-2xl font-extrabold uppercase tracking-[-0.02em]">Track list</h2>
+        <h2 className="font-display text-2xl uppercase tracking-[0.04em]">Track list</h2>
         {album.tracks.length > 0 ? (
           <TrackList tracks={album.tracks} />
         ) : (

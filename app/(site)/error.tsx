@@ -7,8 +7,8 @@ import { Button, ButtonLink } from "../../design-system/components/Button";
 export default function Error({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <Page narrow>
-      <p className="font-gothic text-3xl text-accent">500</p>
-      <h1 className="text-metal font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-[-0.04em] md:text-7xl">
+      <p className="font-display text-lg uppercase tracking-[0.25em] text-accent md:text-xl">500</p>
+      <h1 className="font-gothic text-6xl leading-[0.95] text-text md:text-8xl">
         Something broke
       </h1>
       <p className="text-lg text-muted">That page failed to load. Try again, or head somewhere else.</p>

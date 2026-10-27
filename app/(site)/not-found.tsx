@@ -11,8 +11,8 @@ export const metadata: Metadata = pageMetadata({ title: "Page not found", descri
 export default function NotFound() {
   return (
     <Page narrow>
-      <p className="font-gothic text-3xl text-accent">404</p>
-      <h1 className="text-metal font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-[-0.04em] md:text-7xl">
+      <p className="font-display text-lg uppercase tracking-[0.25em] text-accent md:text-xl">404</p>
+      <h1 className="font-gothic text-6xl leading-[0.95] text-text md:text-8xl">
         Nothing here
       </h1>
       <p className="text-lg text-muted">That page doesn&apos;t exist. Try one of these instead.</p>
