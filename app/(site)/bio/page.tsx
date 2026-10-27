@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: rootProp(doc, "title") ?? "Bio",
     description: rootProp(doc, "description") ?? band.description,
     path: "/bio",
-    image: "/images/band-portrait.png",
+    image: "/images/band-bw.jpg",
   });
 }
 
@@ -36,16 +36,30 @@ export default async function Bio() {
   return (
     <Page>
       <JsonLd data={artistData()} />
-      <div className="grid items-start gap-10 md:grid-cols-[22rem_1fr]">
-        <LightboxImage src="/images/band-portrait.png" alt={`${band.name}, placeholder portrait`} width={1024} height={1536} fetchPriority="high" className="w-full rounded-card border border-line" />
-        <div className="space-y-6">
-          <p className="font-gothic text-3xl text-accent">About</p>
-          <h1 className="text-metal font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-[-0.04em] md:text-7xl">
+      <div className="space-y-10">
+        <LightboxImage
+          src="/images/band-bw.jpg"
+          alt={`${band.name} in black and white against a peeling wall: Cilla Hex, Dead Wren Walking and Ellis Static, left to right.`}
+          width={1600}
+          height={1073}
+          fetchPriority="high"
+          className="w-full rounded-card border border-line"
+        />
+        <div className="max-w-3xl space-y-6">
+          <p className="font-display text-lg uppercase tracking-[0.25em] text-accent md:text-xl">About</p>
+          <h1 className="font-gothic text-6xl leading-[0.95] text-text md:text-8xl">
             {band.name}
           </h1>
           <div className="space-y-4 text-lg leading-8 text-muted">
-            <p>{band.description}</p>
-            <p>Placeholder biography. Replace this copy in app/(site)/bio/page.tsx, or publish a /bio page in P1.</p>
+            <p>
+              {band.name} make deathrock and trash goth post-punk with the tape hiss left in: drum machines and handclaps, fuzzy
+              bass out front, cheap synth stabs and a jangling guitar, recorded on a four-track.
+            </p>
+            <p>
+              Cilla Hex fronts the band, a theatrical, unsteady voice that swings from sweet to shrill inside a line. Dead Wren Walking
+              plays bass, guitar and keys, and sings two songs. Ellis Static plays guitar and synths and does the programming.
+            </p>
+            <p>Class of Never is their first album: a night at the prom, from the crowning to the last slow dance.</p>
           </div>
           <div className="flex flex-wrap gap-3">
             {features.tour && <ButtonLink href="/tour">Tour dates</ButtonLink>}

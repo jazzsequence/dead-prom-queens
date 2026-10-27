@@ -1,71 +1,97 @@
 [
   {
-    "slug": "debut",
-    "title": "Debut Album",
+    "slug": "class-of-never",
+    "title": "Class of Never",
     "kind": "LP",
-    "year": 2026,
+    "year": 1996,
     "cover": "/images/placeholder-cover.png",
-    "blurb": "Placeholder text about the band's first album. Replace it in data/albums.json.",
+    "blurb": "Prom-night deathrock, from the crowning to the last slow dance. Drum machines and handclaps, fuzzy bass and cheap synths.",
     "featured": true,
-    "gallery": [
-      {
-        "src": "/images/placeholder-wide.png",
-        "alt": "Placeholder back cover",
-        "width": 1600,
-        "height": 900
-      }
-    ],
     "tracks": [
       {
         "number": 1,
-        "slug": "first-song",
-        "title": "First Song"
+        "slug": "crowned-and-buried",
+        "title": "Crowned & Buried"
       },
       {
         "number": 2,
-        "slug": "second-song",
-        "title": "Second Song"
+        "slug": "teenage-embalmer",
+        "title": "Teenage Embalmer"
       },
       {
         "number": 3,
-        "slug": "third-song",
-        "title": "Third Song"
-      }
-    ]
-  },
-  {
-    "slug": "first-ep",
-    "title": "First EP",
-    "kind": "EP",
-    "year": 2025,
-    "cover": "/images/placeholder-cover.png",
-    "blurb": "Placeholder text about an earlier release.",
-    "featured": false,
-    "tracks": [
-      {
-        "number": 1,
-        "slug": "opening-track",
-        "title": "Opening Track"
+        "slug": "fog-machine-funeral",
+        "title": "Fog Machine Funeral"
       },
       {
-        "number": 2,
-        "slug": "closing-track",
-        "title": "Closing Track"
-      }
-    ]
-  },
-  {
-    "slug": "unreleased",
-    "title": "Unreleased",
-    "kind": "Unreleased",
-    "cover": "/images/placeholder-cover.png",
-    "blurb": "Recordings that have not been released yet.",
-    "featured": false,
-    "tracks": [
+        "number": 4,
+        "slug": "yearbook-committee",
+        "title": "Yearbook Committee"
+      },
       {
-        "number": 1,
-        "slug": "work-in-progress",
-        "title": "Work in Progress"
+        "number": 5,
+        "slug": "last-bart",
+        "title": "Last BART"
+      },
+      {
+        "number": 6,
+        "slug": "grave-robbers-daughter",
+        "title": "Grave Robber’s Daughter"
+      },
+      {
+        "number": 7,
+        "slug": "most-likely-to",
+        "title": "Most Likely To"
+      },
+      {
+        "number": 8,
+        "slug": "back-row-ghoul",
+        "title": "Back Row Ghoul"
+      },
+      {
+        "number": 9,
+        "slug": "pageant-of-the-damned",
+        "title": "Pageant of the Damned"
+      },
+      {
+        "number": 10,
+        "slug": "alien-prom",
+        "title": "Alien Prom"
+      },
+      {
+        "number": 11,
+        "slug": "chaperone",
+        "title": "Chaperone"
+      },
+      {
+        "number": 12,
+        "slug": "cheap-date-with-a-corpse",
+        "title": "Cheap Date With a Corpse"
+      },
+      {
+        "number": 13,
+        "slug": "sleepover",
+        "title": "Sleepover"
+      },
+      {
+        "number": 14,
+        "slug": "hex-me",
+        "title": "Hex Me"
+      },
+      {
+        "number": 15,
+        "slug": "rotten-corsage",
+        "title": "Rotten Corsage"
+      },
+      {
+        "number": 16,
+        "slug": "slow-dance-open-casket",
+        "title": "Slow Dance, Open Casket"
+      },
+      {
+        "number": 17,
+        "slug": "just-a-little-sip",
+        "title": "Just a Little Sip"
       }
     ]
   }

@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Dead Prom Queens (a fictional act). Trash goth, post-punk. Next.js 16 + P1 (Puck), deployed to Pantheon (`dead-prom-queens`).
+Dead Prom Queens (a fictional act). Deathrock, trash goth, post-punk. Next.js 16 + P1 (Puck), deployed to Pantheon (`dead-prom-queens`).
 Everything band-specific comes from `band.config.json` (identity, which sections exist, type choices, palette, hosting, the location of the local
 off-limits notes) plus content files under `data/` and `content/`.
 
@@ -12,10 +12,10 @@ because the list itself would give the topics away. It has 0 entries. The review
 
 Recorded by `/init-band` on 2026-10-26. Change them in `band.config.json` (then `pnpm theme` if the palette or type changed), not here; this list is the why.
 
-- **Band:** Dead Prom Queens, a fictional act (pages never present it as real). Trash goth post-punk. Black dresses, dead flowers, no encore.
+- **Band:** Dead Prom Queens, a fictional act (pages never present it as real). Prom-night deathrock on a four-track. Drum machines, cheap synths, tape hiss, no encore.
 - **Sections on:** Merch, Lyrics. **Off:** Tour and tickets, Tour map, Press; their routes return 404 and they drop out of the nav, sitemap and `llms.txt`.
 - **Type:** the built-in faces (`typography.wordmarkFace`/`accentFace`: Unbounded and UnifrakturCook) are off. The band's own faces are set through `typography.customFaces`: Broken 15 (wordmark) and Selfish (script, for large headings), both by Misprinted Type, served as WOFF2 from the files bucket (`files.deadpromqueens.jazzsequence.com/fonts/`) and never committed. Eyebrows, small headings and labels are Special Elite (owner's pick from the Heading options story), self-hosted. See "Type" under the design approval workflow and "Custom faces" below for how they work and the licence limits.
-- **Icons and social card are drawn in Broken 15** (`app/icon.*`, `app/apple-icon.png`, `app/favicon.ico`, `public/icons/`, `public/og-default.png`), by `pnpm theme && node scripts/make-brand-assets.mjs`. The script reads the original font from the gitignored `docs/fonts/<customFaces.wordmark.source>` (`BROKEN15.TTF`); that file is not in git and the bucket holds only the WOFF2s, so it has to be restored from the owner's copy before regenerating. With no `source` configured it draws in Unbounded. Changing the wordmark face means regenerating them. The placeholder images (`public/images/`) are solid colours with no text, so they only follow the palette.
+- **Icons and social card are drawn in Broken 15** (`app/icon.*`, `app/apple-icon.png`, `app/favicon.ico`, `public/icons/`, `public/og-default.jpg`), by `pnpm theme && node scripts/make-brand-assets.mjs`. The script reads the original font from the gitignored `docs/fonts/<customFaces.wordmark.source>` (`BROKEN15.TTF`); that file is not in git and the bucket holds only the WOFF2s, so it has to be restored from the owner's copy before regenerating. With no `source` configured it draws in Unbounded. Changing the wordmark face means regenerating them. The social card sits on the hero photo (`public/images/hero.jpg`, with the hero's left and bottom shades), and the script writes it as a JPEG. The band's photos in `public/images/` are web copies of originals kept in the gitignored `images/` folder (JPEG, at most 1600px wide, under 300 KiB, metadata stripped). The `placeholder-*` PNGs are solid colours with no text, so they only follow the palette; the album cover is still one of them until the real art arrives.
 - **Palette:** see `band.config.json`; the gate needed no adjustments.
 - **Hosting:** Pantheon site `dead-prom-queens`; P1 site `a5773c86-3c93-46ed-9450-8f363b7f0982`; audio served from https://files.deadpromqueens.jazzsequence.com.
 - **Workflows installed:** `test-deployed-site.yml`, `sync-puck-registry.yml`.
@@ -98,13 +98,13 @@ How this fits the rest of this file:
   without publishing, use a P1 workstream (that is what workstreams are for; the "no workstreams" rule above is only about pairing them with code PRs).
   Each `content/p1-pages/*.json` is both the design of a page and its fallback copy, so those files do not follow later edits made in P1.
 - **Where the rest of the content lives:** the public pages are code under `app/(site)/` with content in the repo:
-  `data/albums.json` (albums, tracks, an optional `gallery` of extra art per album, an `unreleased` pseudo-album with no `year`; exactly one album is `featured`, which sets the home hero and the "latest" badge and is otherwise an ordinary album at `/albums/<slug>`),
+  `data/albums.json` (albums, tracks, an optional `gallery` of extra art per album, an album with no `year` is how unreleased material is modelled; exactly one album is `featured`, which sets the home hero and the "latest" badge and is otherwise an ordinary album at `/albums/<slug>`),
   `data/tour.json` and `data/merch.json` (fallbacks), `content/lyrics/*.md` (frontmatter `title`/`album`/`track`, `### Label` sections), `content/press/article.md`.
   To add a song: add it to `data/albums.json`, upload `<album>/<NN>-<slug>.m4a` to the bucket, add `content/lyrics/<slug>.md` if it has lyrics.
   P1 pages render inside the `(site)` layout (the catch-all lives under it). That layout supplies the header, footer and player, so a P1 page needs no header or footer block (an Article-only page like `/press` has both). The editor canvas has no layout, so `puckRoot.render` (`components/puck/root.tsx`) wraps the page in the real `SiteHeader` and `SiteFooter` there only (`puck.isEditing`), locked with `inert`, so pages can be built as they will look; on the public site the root adds nothing, so they never double up.
-- **Placeholder content.** The albums, shows, lyrics, merch, bio and press article are still the template's neutral samples until the band replaces them (`CONTENT.md` says where).
-  Images are solid-colour PNGs in the palette (`node scripts/make-placeholder-images.mjs`); icons and the social card are drawn from the band name and palette
-  (`node scripts/make-brand-assets.mjs`). Both read the generated theme, so run `pnpm theme` first after changing the palette. The seeded tour has one on-sale and one sold-out date
+- **Content that is the band's own, and what is still a placeholder.** The album (Class of Never), its lyrics, the bio fallback page, the hero and the photos are the band's. Shows, merch and the press article are still the template's neutral samples until the band replaces them (`CONTENT.md` says where), and the album cover is a placeholder until the real art arrives. Audio is in the R2 bucket as `class-of-never/NN-slug.m4a`; a track with no file there shows "Audio unavailable". Public copy never counts the songs on the album, and the album blurb describes the sound, not how the record was made.
+  The `placeholder-*` PNGs are solid colours in the palette (`node scripts/make-placeholder-images.mjs`); icons and the social card are drawn from the band name and palette,
+  with the hero photo behind the card (`node scripts/make-brand-assets.mjs`). Both scripts read the generated theme, so run `pnpm theme` first after changing the palette. The seeded tour has one on-sale and one sold-out date
   so both ticket pages stay covered by tests; the ticket flow (`/tickets/[id]` -> `/ticket?...`) keeps all state in the URL and collects nothing. Tour dates are fictional and must never be presented as real.
 - **Tour map (`TourMap` in the design system; MapLibre GL + OpenStreetMap raster tiles).** It starts as text (each venue and its
   address, no links out) and loads MapLibre and the tiles only when the visitor clicks "Show map", so by default nothing is requested and nothing

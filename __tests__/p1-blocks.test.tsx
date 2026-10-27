@@ -53,11 +53,11 @@ describe("blocks", () => {
   it("catalog blocks show the catalog's own data", async () => {
     const site = await getSiteData();
     const html = (name: string, props: object) => renderToStaticMarkup(<SiteDataProvider initial={site}>{components[name].render(props as never)}</SiteDataProvider>);
-    const ep = html("TrackListBlock", { albumSlug: "first-ep", heading: "Track list" });
-    expect(ep).toContain("Opening Track");
-    expect(ep).toContain("Closing Track");
-    expect(html("AlbumHeaderBlock", { albumSlug: "debut", kicker: "" })).toContain(">Debut Album<");
-    expect(html("LyricsIndexBlock", {})).toContain("/lyrics/first-song");
+    const album = html("TrackListBlock", { albumSlug: "class-of-never", heading: "Track list" });
+    expect(album).toContain("Crowned &amp; Buried");
+    expect(album).toContain("Slow Dance, Open Casket");
+    expect(html("AlbumHeaderBlock", { albumSlug: "class-of-never", kicker: "" })).toContain(">Class of Never<");
+    expect(html("LyricsIndexBlock", {})).toContain("/lyrics/crowned-and-buried");
     expect(html("AlbumGridBlock", { headingLevel: "h2", includeUnreleased: "no" })).not.toContain("Unreleased");
     expect(html("TourPreviewBlock", { count: 2, heading: "Tour", kicker: "", linkLabel: "", linkHref: "" }).match(/Get tickets|Sold out/g)?.length).toBe(2);
   });

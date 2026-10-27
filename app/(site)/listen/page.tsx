@@ -10,7 +10,7 @@ import { P1Page } from "../../../components/site/p1-page";
 import { getP1Page } from "../../../lib/site/p1-content";
 import { p1PageMetadata } from "../../../lib/site/p1-metadata";
 
-export const generateMetadata = (): Promise<Metadata> => p1PageMetadata({ title: "Listen", description: "Stream and download every album, EP and unreleased recording.", path: "/listen" });
+export const generateMetadata = (): Promise<Metadata> => p1PageMetadata({ title: "Listen", description: "Stream and download the band's music.", path: "/listen" });
 export const revalidate = 300;
 
 async function ListenFallback() {
