@@ -11,7 +11,7 @@
       "type": "HeroBlock",
       "props": {
         "id": "HeroBlock-1",
-        "imageUrl": "/images/placeholder-wide.png",
+        "imageUrl": "/images/hero.jpg",
         "kicker": "New album",
         "title": "Class of Never",
         "blurb": "The latest release.",

@@ -37,7 +37,7 @@ async function HomeFallback() {
         ]}
       />
       <Hero
-        image="/images/placeholder-wide.png"
+        image="/images/hero.jpg"
         kicker="New album"
         title={latest.title}
         blurb="The latest release."
