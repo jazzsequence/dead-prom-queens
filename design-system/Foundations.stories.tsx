@@ -138,8 +138,22 @@ export const Typography: StoryObj = {
   render: () => (
     <div className="space-y-8">
       <div>
-        <p className="mb-1 text-xs uppercase tracking-widest text-dim">Headings · Encode Sans Expanded 800, -0.04em</p>
-        <p className="text-metal font-display text-6xl font-extrabold uppercase leading-none tracking-[-0.04em]">Placeholder heading</p>
+        <p className="mb-1 text-xs uppercase tracking-widest text-dim">
+          Large headings ·{" "}
+          {typography.customFaces?.accent
+            ? `${typography.customFaces.accent.family}, a script: as typed, flat text colour, 48px (text-5xl) and up, never smaller`
+            : "the display face"}
+        </p>
+        <p className="font-gothic text-7xl leading-none text-text md:text-8xl">Placeholder heading</p>
+        <p className="mt-3 font-gothic text-5xl leading-none text-text">At the smallest size a heading may be</p>
+      </div>
+      <div>
+        <p className="mb-1 text-xs uppercase tracking-widest text-dim">
+          Eyebrows, small headings and labels · Special Elite, one weight, uppercase and tracked, never negative tracking or a bold class
+        </p>
+        <p className="font-display text-lg uppercase tracking-[0.25em] text-accent">New album</p>
+        <p className="mt-3 font-display text-2xl uppercase tracking-[0.04em] text-text">What we collect</p>
+        <p className="mt-3 font-display text-xs uppercase tracking-[0.18em] text-muted">Listen · Albums · Lyrics</p>
       </div>
       <div>
         <p className="mb-1 text-xs uppercase tracking-widest text-dim">
@@ -153,18 +167,6 @@ export const Typography: StoryObj = {
         <Wordmark size="lg" />
         <p className="mb-1 mt-4 text-xs uppercase tracking-widest text-dim">The same wordmark at header size</p>
         <Wordmark />
-      </div>
-      <div>
-        <p className="mb-1 text-xs uppercase tracking-widest text-dim">
-          Kickers ·{" "}
-          {typography.customFaces?.accent
-            ? `${typography.customFaces.accent.family}, a script: kickers only, never smaller than 24px (text-2xl)`
-            : typography.accentFace
-              ? "UnifrakturCook, for kickers and flourishes only (typography.accentFace)"
-              : "the display face"}
-        </p>
-        <p className="font-gothic text-4xl text-accent">On the road</p>
-        <p className="mt-2 font-gothic text-2xl text-accent">On the road, at the smallest size a kicker may be</p>
       </div>
       <div className="max-w-xl">
         <p className="mb-1 text-xs uppercase tracking-widest text-dim">Body · Space Grotesk</p>

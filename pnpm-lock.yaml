@@ -19,6 +19,9 @@ importers:
       '@fontsource-variable/unbounded':
         specifier: ^5.3.0
         version: 5.3.0
+      '@fontsource/special-elite':
+        specifier: 5.3.0
+        version: 5.3.0
       '@fontsource/unifrakturcook':
         specifier: ^5.3.0
         version: 5.3.0
@@ -659,6 +662,9 @@ packages:
 
   '@fontsource/encode-sans-expanded@5.3.0':
     resolution: {integrity: sha512-ay7t9tx7TvBTjL6H9oAR+Z5NOWxOEXTK9IOJ2jKNtT/+j/2Sn2wpPV2E1eY716Be0kOcEFHcluzlphTZvQGt+g==}
+
+  '@fontsource/special-elite@5.3.0':
+    resolution: {integrity: sha512-fOQ9XU8m4KnqzcLibAXCxTsKzbxePNDjPqVss5GSMcPVCY1TuCv+Wq8gm1ebqIR6XS1rhMbQ7ECP9ocKVEEpTA==}
 
   '@fontsource/unbounded@5.3.0':
     resolution: {integrity: sha512-pPD6hsTnjoQRr6pCsqMHbHBfauB4LZygCNQEUJHu+CO2wzDFHqELEFSG7sTwo5Z5Gr4q3OK0fIILOXBJDv6lcw==}
@@ -5887,6 +5893,8 @@ snapshots:
   '@fontsource-variable/unbounded@5.3.0': {}
 
   '@fontsource/encode-sans-expanded@5.3.0': {}
+
+  '@fontsource/special-elite@5.3.0': {}
 
   '@fontsource/unbounded@5.3.0': {}
 

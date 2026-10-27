@@ -18,7 +18,7 @@ export function MerchCard({
         <LightboxImage src={image} alt={name} width={640} height={640} loading="lazy" decoding="async" className="size-full object-cover transition duration-500 group-hover:scale-105" />
       </div>
       <div className="flex items-baseline justify-between gap-3">
-        <Heading className="font-display text-sm font-semibold uppercase tracking-wide">{name}</Heading>
+        <Heading className="font-display text-base uppercase tracking-wide">{name}</Heading>
         <p className="tabular-nums text-accent-3">{price}</p>
       </div>
     </div>

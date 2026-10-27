@@ -22,7 +22,7 @@ async function ListenFallback() {
         <section key={album.slug} id={album.slug} className="grid gap-8 md:grid-cols-[16rem_1fr]">
           <div className="space-y-3">
             <LightboxImage src={album.cover} alt={`${album.title} cover art`} width={1024} height={1024} loading="lazy" decoding="async" className="w-full rounded-card border border-line" />
-            <h2 className="font-display text-2xl font-extrabold uppercase tracking-[-0.03em]">
+            <h2 className="font-display text-2xl uppercase tracking-[0.04em]">
               <AppLink href={`/albums/${album.slug}`} className="hover:text-accent">
                 {album.title}
               </AppLink>

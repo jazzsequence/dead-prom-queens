@@ -5,8 +5,8 @@ import { AppLink } from "./AppLink";
  * The band name as a wordmark. With typography.wordmarkFace on it is set in capitals in the wordmark face, tight
  * and in flat colour; with it off it uses the display face, as typed. No gradient and no ornament either way.
  * A custom wordmark face (typography.customFaces.wordmark) wins over both: it is one weight, so it is set at normal
- * weight (no faux bold) and normal tracking (its distressed edges collide when tight), as typed, and a step larger in
- * the header because it is busy at the smaller size.
+ * weight (no faux bold) and normal tracking (its distressed edges collide when tight), as typed, and larger than the
+ * built-in faces (36px, 48px from md up, in the header) because its small x-height and busy edges are lost at 30px.
  */
 export function Wordmark({ size = "md", href }: { size?: "md" | "lg"; href?: string }) {
   const custom = typography.customFaces?.wordmark !== undefined;
@@ -15,7 +15,7 @@ export function Wordmark({ size = "md", href }: { size?: "md" | "lg"; href?: str
     : typography.wordmarkFace
       ? "font-wordmark font-extrabold uppercase leading-none tracking-[-0.05em]"
       : "font-display font-extrabold leading-none tracking-[-0.04em]";
-  const cls = `${face} text-text ${size === "lg" ? "text-5xl md:text-7xl" : custom ? "text-3xl" : "text-2xl"}`;
+  const cls = `${face} text-text ${size === "lg" ? (custom ? "text-6xl md:text-8xl" : "text-5xl md:text-7xl") : custom ? "text-4xl md:text-5xl" : "text-2xl"}`;
   return href ? (
     <AppLink href={href} aria-label={`${band.name}, home`} className={`${cls} hover:text-accent`}>
       {band.name}

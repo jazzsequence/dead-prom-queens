@@ -4,7 +4,7 @@ import { AppLink } from "./AppLink";
 type Variant = "primary" | "outline" | "ghost";
 
 const base =
-  "inline-flex items-center justify-center gap-2 px-6 py-3 font-display text-xs font-semibold uppercase tracking-[0.18em] transition focus-visible:outline-offset-4 disabled:cursor-not-allowed disabled:opacity-40";
+  "inline-flex items-center justify-center gap-2 px-6 py-3 font-display text-xs uppercase tracking-[0.18em] transition focus-visible:outline-offset-4 disabled:cursor-not-allowed disabled:opacity-40";
 
 const variants: Record<Variant, string> = {
   primary:

@@ -27,7 +27,7 @@ export default async function Ticket({ searchParams }: Props) {
   if (!show || !order || !name) {
     return (
       <Page narrow>
-        <h1 className="font-display text-3xl font-extrabold uppercase tracking-[-0.03em]">No ticket here</h1>
+        <h1 className="font-display text-3xl uppercase tracking-[0.04em]">No ticket here</h1>
         <p className="text-muted">This link is missing its ticket details.</p>
         <ButtonLink href="/tour">Tour dates</ButtonLink>
       </Page>
@@ -36,7 +36,7 @@ export default async function Ticket({ searchParams }: Props) {
 
   return (
     <Page>
-      <h1 className="font-display text-3xl font-extrabold uppercase tracking-[-0.03em]">You&apos;re in.</h1>
+      <h1 className="font-display text-3xl uppercase tracking-[0.04em]">You&apos;re in.</h1>
       <p className="text-muted">Save this page or print it. Show the code at the door.</p>
       <TicketCard
         order={order}
