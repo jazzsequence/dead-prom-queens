@@ -4,8 +4,8 @@ export function LyricsBlock({ title, album, sections }: { title: string; album?:
   return (
     <article className="mx-auto max-w-xl space-y-10">
       <header className="space-y-2">
-        {album && <p className="font-gothic text-4xl text-accent md:text-5xl">{album}</p>}
-        <h1 className="text-metal font-display text-4xl font-extrabold uppercase leading-none tracking-[-0.04em] md:text-5xl">{title}</h1>
+        {album && <p className="font-display text-base uppercase tracking-[0.25em] text-accent md:text-lg">{album}</p>}
+        <h1 className="font-gothic text-5xl leading-none text-text md:text-7xl">{title}</h1>
       </header>
       {sections.map((s, i) => (
         <section key={`${i}-${s.label}`} className="space-y-3">
