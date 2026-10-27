@@ -3,7 +3,7 @@
   "root": {
     "props": {
       "title": "Listen",
-      "description": "Stream and download every album, EP and unreleased recording."
+      "description": "Stream and download the band's music."
     }
   },
   "content": [
