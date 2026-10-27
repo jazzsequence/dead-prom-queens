@@ -61,7 +61,7 @@ Songs and lyrics are independent: lyrics with no audio, or audio with no lyrics,
 
 Keep images small: JPEG, at most 1600 px wide, ideally under 300 KB. Resize before adding.
 The seeded images are solid-colour placeholders in the palette (`node scripts/make-placeholder-images.mjs`); replace them with real art.
-Icons and the 1200x630 social card (`public/og-default.png`) are generated from the band name and palette: `node scripts/make-brand-assets.mjs`.
+Icons and the 1200x630 social card (`public/og-default.jpg`: the hero photo under the band name) are generated from the band name, the palette and `public/images/hero.jpg`: `node scripts/make-brand-assets.mjs`.
 
 ## Standards and discovery
 
