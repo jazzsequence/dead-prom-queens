@@ -31,3 +31,6 @@ reviewer-approved
 
 # The Codacy extension's working files.
 .codacy/
+
+# The Codacy VS Code extension writes its AI instructions here
+.github/instructions/
