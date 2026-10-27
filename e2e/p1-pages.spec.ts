@@ -13,6 +13,7 @@ const PAIRS: [fixture: string, route: string][] = [
   ["home", "/"],
   ["listen", "/listen"],
   ["albums", "/albums"],
+  ["albums-class-of-never", "/albums/class-of-never"],
   ["albums-first-ep", "/albums/first-ep"],
   ["albums-debut", "/albums/debut"],
   ["albums-unreleased", "/albums/unreleased"],
@@ -70,11 +71,11 @@ test("the test-only route is a 404 for an unknown page", async ({ page }) => {
 });
 
 test("catalog blocks are driven by the catalog, not typed text", async ({ page }) => {
-  await page.goto("/e2e-fixtures/albums-first-ep");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("First EP");
-  await expect(page.getByRole("listitem").filter({ hasText: "Opening Track" })).toBeVisible();
+  await page.goto("/e2e-fixtures/albums-class-of-never");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Class of Never");
+  await expect(page.getByRole("listitem").filter({ hasText: "Crowned & Buried" })).toBeVisible();
   if (features.lyrics) {
     await page.goto("/e2e-fixtures/lyrics");
-    expect(await page.getByRole("link", { name: /First Song/ }).count()).toBeGreaterThan(0);
+    expect(await page.getByRole("link", { name: /Crowned & Buried/ }).count()).toBeGreaterThan(0);
   }
 });

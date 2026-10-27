@@ -24,9 +24,9 @@ describe("lyrics", () => {
   });
 
   it("parses a seeded lyric with its labelled sections", async () => {
-    const l = await getLyric("first-song");
-    expect(l).toMatchObject({ title: "First Song", album: "debut", track: 1 });
-    expect(l?.sections.map((x) => x.label)).toEqual(["Verse 1", "Chorus"]);
+    const l = await getLyric("crowned-and-buried");
+    expect(l).toMatchObject({ title: "Crowned & Buried", album: "class-of-never", track: 1 });
+    expect(l?.sections.map((x) => x.label)).toEqual(["Verse 1", "Pre-Chorus", "Chorus", "Verse 2", "Chorus", "Bridge", "Final Chorus"]);
   });
 
   it("loads every seeded lyric", async () => {
