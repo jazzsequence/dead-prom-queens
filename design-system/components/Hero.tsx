@@ -34,9 +34,9 @@ export function Hero({
           ends up behind it (a photo can have bright stage lights). From lg up the left-hand shade does the same
           job and the card disappears; the text is then sized to stay on the left, clear of a subject in the middle
           of the frame at those widths (e2e/hero-contrast.spec.ts checks this against the real photo). */}
-      <div className="mx-4 mb-6 max-w-3xl space-y-5 rounded-card bg-void/85 p-5 backdrop-blur-sm md:mx-8 md:mb-10 md:w-fit md:p-8 lg:mx-0 lg:mb-0 lg:w-auto lg:max-w-[26rem] lg:rounded-none lg:bg-transparent lg:p-0 lg:px-12 lg:pb-16 lg:backdrop-blur-none xl:max-w-[30rem] 2xl:max-w-3xl">
+      <div className="mx-4 mb-6 max-w-3xl space-y-5 rounded-card bg-void/85 p-5 backdrop-blur-sm md:mx-8 md:mb-10 md:w-fit md:p-8 lg:mx-0 lg:mb-0 lg:w-auto lg:max-w-[38rem] lg:rounded-none lg:bg-transparent lg:p-0 lg:px-12 lg:pb-16 lg:backdrop-blur-none xl:max-w-[44rem] 2xl:max-w-4xl">
         <p className="font-display text-lg uppercase tracking-[0.25em] text-accent md:text-xl">{kicker}</p>
-        <h1 className="font-gothic text-7xl leading-[0.95] text-text md:text-8xl lg:text-8xl xl:text-9xl">{title}</h1>
+        <h1 className="font-gothic text-7xl leading-[0.95] text-text md:text-8xl lg:text-7xl xl:text-8xl 2xl:text-9xl">{title}</h1>
         <p className="max-w-xl text-lg text-text">{blurb}</p>
         <div className="flex flex-wrap gap-3">
           {actions.map((a) => (
