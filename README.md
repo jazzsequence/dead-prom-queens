@@ -1,8 +1,8 @@
 # Dead Prom Queens
 
-Trash goth post-punk. Black dresses, dead flowers, no encore.
+Prom-night deathrock on a four-track. Drum machines, cheap synths, tape hiss, no encore.
 
-Trash goth post-punk fronted by Cilla Hex, with Dead Wren Walking and Ellis Static.
+Camp-horror deathrock and trash goth post-punk: drum machines and handclaps, fuzzy bass and cheap synth stabs. Fronted by Cilla Hex, with Dead Wren Walking and Ellis Static.
 
 _This is a fictional act; nothing here is a real band, show or release._
 
