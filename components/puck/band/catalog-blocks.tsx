@@ -88,8 +88,8 @@ function AlbumHeader({ albumSlug, kicker, meta, actions }: { albumSlug?: string;
       <div className="grid items-end gap-10 md:grid-cols-[20rem_1fr]">
         <LightboxImage src={album.cover} alt={`${album.title} cover art`} width={1024} height={1024} fetchPriority="high" className="w-full rounded-card border border-line" />
         <div className="space-y-5">
-          <p className="font-gothic text-3xl text-accent">{kicker || (released ? album.kind : "Unreleased")}</p>
-          <h1 className="text-metal font-display text-5xl font-extrabold uppercase leading-[0.9] tracking-[-0.04em] md:text-7xl">{album.title}</h1>
+          <p className="font-display text-lg uppercase tracking-[0.25em] text-accent md:text-xl">{kicker || (released ? album.kind : "Unreleased")}</p>
+          <h1 className="font-gothic text-6xl leading-[0.95] text-text md:text-8xl">{album.title}</h1>
           <p className="max-w-xl text-lg text-muted">{album.blurb}</p>
           <p className="text-sm text-dim">
             {meta ||
@@ -140,7 +140,7 @@ function AlbumTracks({ albumSlug, heading }: { albumSlug?: string; heading?: str
   if (!album) return <Loading what="that album (check the Album choice)" />;
   return (
     <div className="mx-auto w-full max-w-6xl space-y-4 px-6 py-6">
-      <h2 className="font-display text-2xl font-extrabold uppercase tracking-[-0.02em]">{heading || "Track list"}</h2>
+      <h2 className="font-display text-2xl uppercase tracking-[0.04em]">{heading || "Track list"}</h2>
       {album.tracks.length > 0 ? <TrackList tracks={album.tracks} /> : <Empty>Nothing here yet. Recordings with no public release will be listed on this page.</Empty>}
     </div>
   );
@@ -163,7 +163,7 @@ function AlbumSection({ albumSlug }: { albumSlug?: string }) {
     <section id={album.slug} className="mx-auto grid w-full max-w-6xl gap-8 px-6 py-8 md:grid-cols-[16rem_1fr]">
       <div className="space-y-3">
         <LightboxImage src={album.cover} alt={`${album.title} cover art`} width={1024} height={1024} loading="lazy" decoding="async" className="w-full rounded-card border border-line" />
-        <h2 className="font-display text-2xl font-extrabold uppercase tracking-[-0.03em]">
+        <h2 className="font-display text-2xl uppercase tracking-[0.04em]">
           <AppLink href={albumHref(album)} className="hover:text-accent">
             {album.title}
           </AppLink>
