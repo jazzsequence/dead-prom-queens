@@ -1,0 +1,35 @@
+{
+  "path": "/albums/class-of-never",
+  "root": {
+    "props": {
+      "title": "Class of Never",
+      "description": ""
+    }
+  },
+  "content": [
+    {
+      "type": "AlbumHeaderBlock",
+      "props": {
+        "id": "AlbumHeaderBlock-17",
+        "albumSlug": "class-of-never",
+        "kicker": "",
+        "actions": [
+          {
+            "label": "All albums",
+            "href": "/albums",
+            "style": "outline"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TrackListBlock",
+      "props": {
+        "id": "TrackListBlock-18",
+        "albumSlug": "class-of-never",
+        "heading": "Track list"
+      }
+    }
+  ],
+  "zones": {}
+}
