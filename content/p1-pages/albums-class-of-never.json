@@ -1,8 +1,8 @@
 {
-  "path": "/albums/first-ep",
+  "path": "/albums/class-of-never",
   "root": {
     "props": {
-      "title": "First EP",
+      "title": "Class of Never",
       "description": ""
     }
   },
@@ -10,8 +10,8 @@
     {
       "type": "AlbumHeaderBlock",
       "props": {
-        "id": "AlbumHeaderBlock-15",
-        "albumSlug": "first-ep",
+        "id": "AlbumHeaderBlock-17",
+        "albumSlug": "class-of-never",
         "kicker": "",
         "actions": [
           {
@@ -25,8 +25,8 @@
     {
       "type": "TrackListBlock",
       "props": {
-        "id": "TrackListBlock-16",
-        "albumSlug": "first-ep",
+        "id": "TrackListBlock-18",
+        "albumSlug": "class-of-never",
         "heading": "Track list"
       }
     }

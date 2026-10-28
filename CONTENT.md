@@ -16,6 +16,7 @@ Sign in at `/p1` and edit these pages in the visual editor. Changes go live when
 | `/lyrics` | The intro. The list comes from the lyrics files | Page heading, Lyrics index |
 | `/press`, `/privacy` | The text, in Markdown | Article |
 | `/bio` | Bio text and photo | Image and text |
+| `/press/kit` | The press kit: one-liner, bios, quick facts, the band, photos and the download link. It exists only in P1; turning `features.pressKit` off removes its sitemap and `llms.txt` entries and its footer link, not the page | Page heading, Image gallery (Columns 1 for the wide lead photo, 3 for the grid), Article |
 | `/merch` | Merch items, prices and images | Page heading, Merch grid |
 
 **Catalog blocks** (Album grid, Album header, Track list, Album with tracks, Lyrics index, Tour preview) show data that lives
@@ -30,6 +31,7 @@ and are the copy to rebuild a page from if one is ever damaged.
 
 Notes:
 - **Tour dates:** each show has an optional **URL id**. Set it once and never change it, because ticket links use it. If left empty it is made from the city and date.
+- **Image gallery:** Columns 1 shows one wide picture across the full width of the page; 2 and 3 make a grid. (After a change to a block's choices, the registry has to be re-synced to P1; CI does it on a push to `main`.)
 - **Always one h1:** every page needs exactly one. Use a Page heading block, or set an Image and text block's title to h1.
 - **Fallback:** if P1 is unreachable, or a page is not published, every page above falls back to the code version in this repo (`data/tour.json`, `data/merch.json` and the page files under `app/(site)/`). Keep those roughly current.
 - **Workstreams:** work on a P1 workstream and merge to main to publish.
@@ -45,7 +47,7 @@ Everything below is a file. Edit, commit, and open a PR.
 | Audio | Cloudflare R2 bucket | Upload `<album-slug>/<NN>-<track-slug>.m4a`. The site lists the bucket every 5 minutes, so a new file appears without a deploy. A track with no file shows "Audio unavailable". |
 | Lyrics | `content/lyrics/<slug>.md` | Frontmatter: `title`, and optionally `album` (an album slug) and `track`. Each `### Label` line starts a section. A song with no `album` is listed under "More songs". |
 | Press article | `content/press/article.md` | Plain Markdown. |
-| Merch (fallback) | `data/merch.json` | `name`, `price`, `image`. |
+| Merch (fallback) | `data/merch.json` | `name`, `price`, `image`. Only shown when P1 has no published `/merch` page; the items and photos live in the P1 page's Merch grid, so edit there. |
 | Bio (fallback) | `app/(site)/bio/page.tsx` | Used only when the P1 page is unavailable. |
 | Images | `public/images/` | Reference as `/images/<file>`. |
 
@@ -61,7 +63,7 @@ Songs and lyrics are independent: lyrics with no audio, or audio with no lyrics,
 
 Keep images small: JPEG, at most 1600 px wide, ideally under 300 KB. Resize before adding.
 The seeded images are solid-colour placeholders in the palette (`node scripts/make-placeholder-images.mjs`); replace them with real art.
-Icons and the 1200x630 social card (`public/og-default.png`) are generated from the band name and palette: `node scripts/make-brand-assets.mjs`.
+Icons and the 1200x630 social card (`public/og-default.jpg`: the hero photo under the band name) are generated from the band name, the palette and `public/images/hero.jpg`: `node scripts/make-brand-assets.mjs`.
 
 ## Standards and discovery
 

@@ -42,6 +42,18 @@ describe("the P1 page definitions", () => {
 });
 
 describe("blocks", () => {
+  it("the image gallery's one-column option is one wide picture, and 2 and 3 keep the grid", () => {
+    const items = [
+      { imageUrl: "/images/hero.jpg", alt: "A wide photo" },
+      { imageUrl: "/images/band-bw.jpg", alt: "Another photo" },
+    ];
+    const render = (columns: string) => renderToStaticMarkup(components.ImageGalleryBlock.render({ columns, items } as never));
+    expect(render("1")).not.toContain("grid-cols-");
+    expect(render("2")).toContain("sm:grid-cols-2");
+    expect(render("2")).not.toContain("md:grid-cols-3");
+    expect(render("3")).toContain("md:grid-cols-3");
+  });
+
   it("every block renders from its default props without throwing", async () => {
     const site = await getSiteData();
     for (const [name, block] of Object.entries(components)) {
@@ -53,11 +65,11 @@ describe("blocks", () => {
   it("catalog blocks show the catalog's own data", async () => {
     const site = await getSiteData();
     const html = (name: string, props: object) => renderToStaticMarkup(<SiteDataProvider initial={site}>{components[name].render(props as never)}</SiteDataProvider>);
-    const ep = html("TrackListBlock", { albumSlug: "first-ep", heading: "Track list" });
-    expect(ep).toContain("Opening Track");
-    expect(ep).toContain("Closing Track");
-    expect(html("AlbumHeaderBlock", { albumSlug: "debut", kicker: "" })).toContain(">Debut Album<");
-    expect(html("LyricsIndexBlock", {})).toContain("/lyrics/first-song");
+    const album = html("TrackListBlock", { albumSlug: "class-of-never", heading: "Track list" });
+    expect(album).toContain("Crowned &amp; Buried");
+    expect(album).toContain("Slow Dance, Open Casket");
+    expect(html("AlbumHeaderBlock", { albumSlug: "class-of-never", kicker: "" })).toContain(">Class of Never<");
+    expect(html("LyricsIndexBlock", {})).toContain("/lyrics/crowned-and-buried");
     expect(html("AlbumGridBlock", { headingLevel: "h2", includeUnreleased: "no" })).not.toContain("Unreleased");
     expect(html("TourPreviewBlock", { count: 2, heading: "Tour", kicker: "", linkLabel: "", linkHref: "" }).match(/Get tickets|Sold out/g)?.length).toBe(2);
   });

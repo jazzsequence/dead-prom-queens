@@ -3,7 +3,7 @@
   "root": {
     "props": {
       "title": "Listen",
-      "description": "Stream and download every album, EP and unreleased recording."
+      "description": "Stream and download the band's music."
     }
   },
   "content": [
@@ -19,22 +19,8 @@
     {
       "type": "AlbumSectionBlock",
       "props": {
-        "id": "AlbumSectionBlock-6",
-        "albumSlug": "debut"
-      }
-    },
-    {
-      "type": "AlbumSectionBlock",
-      "props": {
-        "id": "AlbumSectionBlock-7",
-        "albumSlug": "first-ep"
-      }
-    },
-    {
-      "type": "AlbumSectionBlock",
-      "props": {
-        "id": "AlbumSectionBlock-8",
-        "albumSlug": "unreleased"
+        "id": "AlbumSectionBlock-9",
+        "albumSlug": "class-of-never"
       }
     }
   ],

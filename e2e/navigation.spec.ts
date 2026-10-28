@@ -33,9 +33,9 @@ test("header links navigate without reloading the page", async ({ page, isMobile
 });
 
 test("album cards and buttons navigate without reloading the page", async ({ page }) => {
-  await navigateWithoutReload(page, "/albums", () => page.getByRole("link", { name: /^First EP/ }).click(), /\/albums\/first-ep$/);
+  await navigateWithoutReload(page, "/albums", () => page.getByRole("link", { name: /^Class of Never/ }).click(), /\/albums\/class-of-never$/);
   if (features.tour) await navigateWithoutReload(page, "/", () => page.getByRole("link", { name: "All dates" }).click(), /\/tour$/);
-  if (features.lyrics) await navigateWithoutReload(page, "/lyrics", () => page.getByRole("link", { name: /First Song/ }).first().click(), /\/lyrics\/first-song$/);
+  if (features.lyrics) await navigateWithoutReload(page, "/lyrics", () => page.getByRole("link", { name: /Crowned & Buried/ }).first().click(), /\/lyrics\/crowned-and-buried$/);
 });
 
 test("the wordmark link goes home without reloading", async ({ page }) => {

@@ -4,8 +4,8 @@ import { band, features, when } from "./helpers/config";
 
 /** Pages that render in a normal session; /ticket needs query parameters. */
 const pages = [
-  "/", "/albums", "/albums/first-ep", "/albums/unreleased", "/listen", "/bio", "/privacy",
-  ...when("lyrics", "/lyrics", "/lyrics/first-song"),
+  "/", "/albums", "/albums/class-of-never", "/listen", "/bio", "/privacy",
+  ...when("lyrics", "/lyrics", "/lyrics/crowned-and-buried"),
   ...when("tour", "/tour", "/tickets/sample-city-2027-03-12", "/ticket?show=sample-city-2027-03-12&name=Test&qty=1&order=PRS-TEST01"),
   ...when("press", "/press"),
   ...when("merch", "/merch"),
@@ -64,8 +64,9 @@ test.describe("discovery files", () => {
 
   test("sitemap lists pages, albums and lyrics but not the private ticket page", async ({ request }) => {
     const body = await (await request.get("/sitemap.xml")).text();
-    expect(body).toContain("/albums/first-ep");
-    if (features.lyrics) expect(body).toContain("/lyrics/first-song");
+    expect(body).toContain("/albums/class-of-never");
+    if (features.lyrics) expect(body).toContain("/lyrics/crowned-and-buried");
+    if (features.pressKit) expect(body).toContain("/press/kit");
     if (features.tour) expect(body).toContain("/tickets/sample-city-2027-03-12");
     expect(body).not.toMatch(/\/ticket<\/loc>/);
   });
@@ -112,11 +113,11 @@ test.describe("page metadata", () => {
   }
 
   test("structured data parses and album pages describe their tracks", async ({ page }) => {
-    await page.goto("/albums/first-ep");
+    await page.goto("/albums/class-of-never");
     const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
     const nodes = blocks.map((b) => JSON.parse(b));
     const album = nodes.find((n) => n["@type"] === "MusicAlbum");
-    expect(album.track).toHaveLength(2);
+    expect(album.track).toHaveLength(17);
     expect(nodes.some((n) => n["@type"] === "BreadcrumbList")).toBe(true);
   });
 });

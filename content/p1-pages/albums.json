@@ -3,7 +3,7 @@
   "root": {
     "props": {
       "title": "Albums",
-      "description": "Albums, EPs and unreleased recordings."
+      "description": "The band's albums, with track lists and lyrics."
     }
   },
   "content": [

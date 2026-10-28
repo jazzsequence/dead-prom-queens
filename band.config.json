@@ -1,9 +1,9 @@
 {
   "band": {
     "name": "Dead Prom Queens",
-    "tagline": "Trash goth post-punk. Black dresses, dead flowers, no encore.",
-    "description": "Trash goth post-punk fronted by Cilla Hex, with Dead Wren Walking and Ellis Static.",
-    "genre": "Trash goth, post-punk",
+    "tagline": "Prom-night deathrock on a four-track. Drum machines, cheap synths, tape hiss, no encore.",
+    "description": "Camp-horror deathrock and trash goth post-punk: drum machines and handclaps, fuzzy bass and cheap synth stabs. Fronted by Cilla Hex, with Dead Wren Walking and Ellis Static.",
+    "genre": "Deathrock, trash goth, post-punk",
     "fictional": true,
     "siteUrl": "https://deadpromqueens.jazzsequence.com",
     "copyrightYear": 2026,
@@ -14,7 +14,8 @@
     "merch": true,
     "lyrics": true,
     "map": false,
-    "press": false
+    "press": false,
+    "pressKit": true
   },
   "typography": {
     "wordmarkFace": false,

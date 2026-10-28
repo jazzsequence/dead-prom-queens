@@ -7,7 +7,7 @@ import { when } from "./helpers/config";
  * also proves that versioned URLs resolve. A missing file fails here instead of showing as a broken
  * picture on the live site.
  */
-const routes = ["/", "/bio", ...when("tour", "/tour"), ...when("merch", "/merch"), "/listen", "/albums", "/albums/first-ep", "/albums/debut", "/albums/unreleased", ...when("press", "/press")];
+const routes = ["/", "/bio", ...when("tour", "/tour"), ...when("merch", "/merch"), "/listen", "/albums", "/albums/class-of-never", ...when("press", "/press")];
 
 for (const route of routes) {
   test(`every image on ${route} loads`, async ({ page, request }) => {

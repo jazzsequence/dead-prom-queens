@@ -78,11 +78,13 @@ test("text over the hero photo meets contrast at every screen size", async ({ pa
  * text wants to go. This works out where the subject lands from the image's own crop (object-cover, 50% / 6%)
  * and asserts the card and text stay clear of it.
  *
- * Set HERO_PHOTO to the real photo's pixel size and FACE to the region the text must never cover (fractions of
- * the photo, for example forehead to chin). The values below fit the neutral placeholder image.
+ * HERO_PHOTO is the real hero photo's pixel size (public/images/hero.jpg) and FACE the region the text must never
+ * cover, as fractions of the photo: from the left edge of the first head to the right edge of the third (x 0.34 to
+ * 0.76) and from the top of the tallest head to the chin line (y 0.20 to 0.40). The text sits under that row of faces
+ * and to the left of it, over the building front and the bodies. Measure again if the photo is swapped.
  */
-const HERO_PHOTO = { width: 1600, height: 900 };
-const FACE = { x0: 0.62, x1: 0.8, y0: 0.15, y1: 0.4 };
+const HERO_PHOTO = { width: 1600, height: 1039 };
+const FACE = { x0: 0.34, x1: 0.76, y0: 0.2, y1: 0.4 };
 const FACE_SIZES: [number, number][] = [[768, 1024], [1024, 768], [1100, 700], [1180, 820], [1280, 720], [1280, 800], [1366, 768], [1440, 900], [1536, 864], [1920, 1080]];
 
 test("the hero text never covers the photo's subject", async ({ page }) => {

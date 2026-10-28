@@ -7,11 +7,9 @@ import { features, when } from "./helpers/config";
 const routes = [
   "/",
   "/albums",
-  "/albums/debut",
-  "/albums/first-ep",
-  "/albums/unreleased",
+  "/albums/class-of-never",
   "/listen",
-  ...when("lyrics", "/lyrics", "/lyrics/first-song", "/lyrics/second-song"),
+  ...when("lyrics", "/lyrics", "/lyrics/crowned-and-buried", "/lyrics/slow-dance-open-casket"),
   ...when(
     "tour",
     "/tour",
@@ -26,7 +24,7 @@ const routes = [
   "/privacy",
   // Unknown URLs go through the P1 catch-all, which needs real P1 credentials; CI has none.
   // P1-only pages have no repo copy, so CI (placeholder credentials) cannot render them.
-  ...(process.env.A11Y_P1_ROUTES ? [...when("press", "/press/kit"), "/this-page-does-not-exist"] : []),
+  ...(process.env.A11Y_P1_ROUTES ? [...when("pressKit", "/press/kit"), "/this-page-does-not-exist"] : []),
 ];
 
 const WCAG = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa", "best-practice"];

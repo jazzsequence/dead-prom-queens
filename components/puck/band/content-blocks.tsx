@@ -98,7 +98,7 @@ export const articleBlock = {
 
 type GalleryItem = { imageUrl?: string; alt?: string };
 
-/** Pictures in a grid; each opens larger in the lightbox. */
+/** Pictures in a grid, or one wide picture across the full width (Columns: 1); each opens larger in the lightbox. */
 export const imageGalleryBlock = {
   label: "Image gallery",
   fields: {
@@ -106,6 +106,7 @@ export const imageGalleryBlock = {
       type: "radio" as const,
       label: "Columns",
       options: [
+        { label: "1 (one wide picture)", value: "1" },
         { label: "2", value: "2" },
         { label: "3", value: "3" },
       ],
@@ -124,7 +125,7 @@ export const imageGalleryBlock = {
   defaultProps: { columns: "2", items: [] as GalleryItem[] },
   render: ({ columns, items }: { columns?: string; items?: GalleryItem[] }) => (
     <div className="mx-auto w-full max-w-6xl px-6 py-10">
-      <div className={`grid gap-6 sm:grid-cols-2 ${columns === "3" ? "md:grid-cols-3" : ""}`}>
+      <div className={`grid gap-6 ${columns === "1" ? "" : `sm:grid-cols-2 ${columns === "3" ? "md:grid-cols-3" : ""}`}`}>
         {(items ?? [])
           .filter((i) => i.imageUrl)
           .map((i) => (

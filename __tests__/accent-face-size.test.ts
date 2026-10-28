@@ -6,15 +6,16 @@ import { describe, expect, it } from "vitest";
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 /**
- * The accent face (--font-gothic) is a script: clean at 24px and up, poor at 16px. It is for kickers only. This reads
- * the source for every use of `font-gothic` and fails closed: each use must sit in one readable class string that
- * ALSO states a size of at least 24px (text-2xl), and carries no smaller size at another breakpoint. So a size set
+ * The accent face (--font-gothic, Selfish) is a script that is unreadable small. It is for large headings only, at 48px
+ * (text-5xl) and up; eyebrows and small headings use the display face. This reads the source for every use of
+ * `font-gothic` and fails closed: each use must sit in one readable class string that ALSO states a size of at least
+ * 48px, and carries no smaller size at another breakpoint. So a size set
  * somewhere else (`cn("font-gothic", "text-sm")`, a parent's class, a `${...}` expression, a string wrapped over
  * several lines) is a failure to explain, not a silent pass. Put a use that is legitimately built that way in
  * ALLOWED with the reason. Sizes built at runtime from a variable are the one thing a source scan cannot see; the
  * Typography story shows the minimum size for review.
  */
-const MIN_PX = 24;
+const MIN_PX = 48;
 const ALLOWED: { file: string; reason: string }[] = [];
 
 const SIZES: Record<string, number> = { xs: 12, sm: 14, base: 16, lg: 18, xl: 20, "2xl": 24, "3xl": 30, "4xl": 36, "5xl": 48, "6xl": 60, "7xl": 72, "8xl": 96, "9xl": 128 };
@@ -81,7 +82,7 @@ describe("the accent face is never set small", () => {
     expect(uses.filter((u) => u.classes === undefined && !ALLOWED.some((a) => a.file === u.file)).map((u) => `${u.file}:${u.line}`)).toEqual([]);
   });
 
-  it(`gives every use a size of its own, and never one under ${MIN_PX}px (text-2xl)`, () => {
+  it(`gives every use a size of its own, and never one under ${MIN_PX}px (text-5xl)`, () => {
     const bad = allUses()
       .filter((u) => u.classes !== undefined)
       .flatMap((u) => {
@@ -104,8 +105,12 @@ describe("the accent face is never set small", () => {
         "font-gothic !text-sm",
         "font-gothic [&>span]:text-xs",
         "font-gothic text-3xl md:text-sm",
+        "font-gothic text-4xl",
+        "font-gothic text-4xl md:text-5xl",
+        "font-gothic text-[40px]",
+        "font-gothic text-[2.5rem]",
       ]) {
-        expect(problem(bad), bad).toBe("has a size under 24px");
+        expect(problem(bad), bad).toBe("has a size under 48px");
       }
     });
 
@@ -113,8 +118,8 @@ describe("the accent face is never set small", () => {
       for (const unsized of ["font-gothic", "font-gothic text-accent", "mb-2 font-gothic text-accent"]) expect(problem(unsized), unsized).toBe("states no size of its own");
     });
 
-    it("accepts 24px and up", () => {
-      for (const ok of ["font-gothic text-2xl text-accent", "mb-2 font-gothic text-3xl", "font-gothic text-4xl md:text-5xl", "font-gothic text-[24px]", "font-gothic text-[1.75rem]", "font-gothic text-2xl/8"]) {
+    it("accepts 48px and up", () => {
+      for (const ok of ["font-gothic text-5xl text-text", "mb-2 font-gothic text-6xl", "font-gothic text-5xl md:text-7xl", "font-gothic text-[48px]", "font-gothic text-[3rem]", "font-gothic text-5xl/none"]) {
         expect(problem(ok), ok).toBeUndefined();
       }
     });
@@ -135,7 +140,7 @@ describe("the accent face is never set small", () => {
     });
 
     it("does not count a comment that merely names the class", () => {
-      expect(usesIn(" * Kickers use font-gothic, a script.\n// font-gothic is for kickers\n/* font-gothic */", "e.tsx")).toEqual([]);
+      expect(usesIn(" * Large headings use font-gothic, a script.\n// font-gothic is for headings\n/* font-gothic */", "e.tsx")).toEqual([]);
     });
   });
 });

@@ -3,10 +3,11 @@
  *
  * app/   icon.png, icon.svg, apple-icon.png, favicon.ico   (Next file conventions)
  * public/icons/   icon-192.png, icon-512.png, icon-maskable-512.png   (referenced by app/manifest.ts)
- * public/og-default.png   1200x630 social card
+ * public/og-default.jpg   1200x630 social card
  *
  * The mark is the band name's first letter on the site's darkest surface with an accent bar, and the card is the
- * name on a surface gradient. Name and colours come from band.config.json and the generated theme (run `pnpm theme`
+ * name over the hero photo (public/images/hero.jpg) with the same left and bottom shades the hero uses, or on a
+ * surface gradient when there is no photo. Name and colours come from band.config.json and the generated theme (run `pnpm theme`
  * first if you changed the palette), so a re-themed band gets matching assets.
  *
  * The face is the band's own wordmark when typography.customFaces.wordmark.source names a font file under docs/fonts/
@@ -64,6 +65,14 @@ const TITLE_SIZE = FACE.custom
   ? Math.max(56, Math.min(168, Math.floor(1056 / font.getAdvanceWidth(NAME, 1))))
   : Math.max(56, Math.min(168, Math.floor(1056 / ([...NAME].length * 0.9))));
 
+// The photo behind the social card, when it exists. Embedded as a data URL so the browser needs nothing else.
+const OG_PHOTO = "public/images/hero.jpg";
+const photo = existsSync(OG_PHOTO) ? readFileSync(OG_PHOTO).toString("base64") : undefined;
+const rgba = (hex, a) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${n >> 16}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
+};
+
 const fontFace = `@font-face { font-family: U; src: ${FACE.embed}; font-weight: ${FACE.weightRange}; }`;
 
 const iconHtml = (size, { round, scale }) => `<!doctype html><meta charset="utf-8"><style>
@@ -79,17 +88,21 @@ const ogHtml = `<!doctype html><meta charset="utf-8"><style>
   ${fontFace}
   html, body { margin: 0; }
   .card { width: 1200px; height: 630px; position: relative; overflow: hidden; background: linear-gradient(135deg, ${INK} 0%, ${SURFACE} 45%, ${RAISED} 100%); }
+  .card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 6%; }
+  .card .shade { position: absolute; inset: 0;
+    background: linear-gradient(90deg, ${rgba(INK, 0.92)} 0%, ${rgba(INK, 0.55)} 38%, ${rgba(INK, 0)} 68%),
+                linear-gradient(0deg, ${rgba(INK, 0.85)} 0%, ${rgba(INK, 0)} 40%); }
   .card h1 { position: absolute; left: 72px; right: 72px; bottom: 64px; margin: 0; font: ${FACE.weight} ${TITLE_SIZE}px/1 U; letter-spacing: ${FACE.spacing}; text-transform: ${FACE.transform}; color: ${METAL_HI}; }
   .card .bar { position: absolute; left: 72px; bottom: 40px; width: 150px; height: 8px; background: ${ACCENT}; }
-</style><div class="card"><h1>${esc(NAME)}</h1><div class="bar"></div></div>`;
+</style><div class="card">${photo ? `<img src="data:image/jpeg;base64,${photo}" alt=""><div class="shade"></div>` : ""}<h1>${esc(NAME)}</h1><div class="bar"></div></div>`;
 
 const browser = await chromium.launch();
-const shoot = async (html, w, h, selector) => {
+const shoot = async (html, w, h, selector, type = "png") => {
   const page = await browser.newPage({ viewport: { width: w, height: h } });
   await page.setContent(html);
   await page.evaluate((weight) => document.fonts.load(`${weight} 64px U`), FACE.weight);
   await page.evaluate(() => document.fonts.ready);
-  const buf = await page.locator(selector).screenshot({ omitBackground: true, type: "png" });
+  const buf = await page.locator(selector).screenshot({ omitBackground: true, type, ...(type === "jpeg" ? { quality: 88 } : {}) });
   await page.close();
   return buf;
 };
@@ -103,7 +116,7 @@ writeFileSync("public/icons/icon-192.png", await icon(192));
 writeFileSync("public/icons/icon-512.png", await icon(512));
 // Maskable: full bleed, with the mark inside the central 80% safe zone.
 writeFileSync("public/icons/icon-maskable-512.png", await icon(512, { round: false, scale: 0.5 }));
-writeFileSync("public/og-default.png", await shoot(ogHtml, 1200, 630, ".card"));
+writeFileSync("public/og-default.jpg", await shoot(ogHtml, 1200, 630, ".card", "jpeg"));
 
 // SVG favicon: outline the glyph so it does not depend on the font being installed. `font` is the face parsed above
 // (opentype.js reads WOFF and TTF, not WOFF2, which is why Unbounded's static 800 weight is used for it).
