@@ -87,7 +87,7 @@ The checks that run on every pull request need none. The rest:
 | `Storybook preview` | nothing (uses the built-in token); needs Pages and the ruleset note above | always |
 | `Promote to Pantheon Environment` | `PANTHEON_MACHINE_TOKEN` (the site name is `PANTHEON_SITE_NAME` in the workflow file, which `/init-band` sets) | pushes to the `test` and `live` branches |
 | `Test deployed site` (installed from `examples/workflows/`) | `PANTHEON_MACHINE_TOKEN` | every pull request and push to `main`; add it as a required check only once it passes |
-| `Sync Puck Component Registry` (installed from `examples/workflows/`) | `CSS_BASE_URL`, `CSS_SITE_ID`, `CSS_REGISTRY_API_KEY` | pushes touching `components/puck/**` or `puck.config.tsx` |
+| `Sync Puck Component Registry` (installed from `examples/workflows/`) | `CSS_BASE_URL`, `CSS_SITE_ID`, `CSS_REGISTRY_API_KEY` | pushes touching `components/puck/**`, `puck.components.tsx` or `puck.config.tsx` |
 
 Set `PANTHEON_MACHINE_TOKEN` **both** as an Actions secret and as a **Dependabot** secret (`gh secret set NAME --app dependabot`):
 Dependabot runs see only Dependabot secrets, so without the second copy every Dependabot pull request fails the deployed-site check.

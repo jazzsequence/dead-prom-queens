@@ -2,7 +2,7 @@
  * Syncs this site's Puck component registry (_registry/components/* and the
  * registry index) headlessly, without opening the editor in a browser.
  * Intended to run from CI on push to main or a branch whose name matches a
- * branch on the site, whenever puck.config.tsx or components/puck/** change.
+ * branch on the site, whenever puck.config.tsx, puck.components.tsx or components/puck/** change.
  *
  * Usage: tsx scripts/sync-puck-registry.ts [--dry-run]
  *
