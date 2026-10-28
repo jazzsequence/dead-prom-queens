@@ -47,7 +47,7 @@ Everything below is a file. Edit, commit, and open a PR.
 | Audio | Cloudflare R2 bucket | Upload `<album-slug>/<NN>-<track-slug>.m4a`. The site lists the bucket every 5 minutes, so a new file appears without a deploy. A track with no file shows "Audio unavailable". |
 | Lyrics | `content/lyrics/<slug>.md` | Frontmatter: `title`, and optionally `album` (an album slug) and `track`. Each `### Label` line starts a section. A song with no `album` is listed under "More songs". |
 | Press article | `content/press/article.md` | Plain Markdown. |
-| Merch (fallback) | `data/merch.json` | `name`, `price`, `image`. |
+| Merch (fallback) | `data/merch.json` | `name`, `price`, `image`. Only shown when P1 has no published `/merch` page; the items and photos live in the P1 page's Merch grid, so edit there. |
 | Bio (fallback) | `app/(site)/bio/page.tsx` | Used only when the P1 page is unavailable. |
 | Images | `public/images/` | Reference as `/images/<file>`. |
 

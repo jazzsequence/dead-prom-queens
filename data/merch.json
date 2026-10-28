@@ -1,14 +1,11 @@
 [
-  {
-    "slug": "placeholder-tee",
-    "name": "Placeholder tee",
-    "price": "$25",
-    "image": "/images/placeholder-merch.png"
-  },
-  {
-    "slug": "placeholder-vinyl",
-    "name": "Placeholder vinyl LP",
-    "price": "$28",
-    "image": "/images/placeholder-merch.png"
-  }
+  { "slug": "vinyl", "name": "Class of Never (limited edition vinyl)", "price": "$28", "image": "/images/placeholder-merch.png" },
+  { "slug": "cd", "name": "Class of Never (CD)", "price": "$15", "image": "/images/placeholder-merch.png" },
+  { "slug": "cassette", "name": "Class of Never (cassette)", "price": "$9", "image": "/images/placeholder-merch.png" },
+  { "slug": "tshirt", "name": "Class of Never tshirt", "price": "$25", "image": "/images/placeholder-merch.png" },
+  { "slug": "baby-tee", "name": "DPQ baby tee", "price": "$28", "image": "/images/placeholder-merch.png" },
+  { "slug": "patch", "name": "Class of Never patch", "price": "$10", "image": "/images/placeholder-merch.png" },
+  { "slug": "sash", "name": "Dead Prom Queen sash", "price": "$15", "image": "/images/placeholder-merch.png" },
+  { "slug": "zine", "name": "Dead Prom Queens zine", "price": "$2", "image": "/images/placeholder-merch.png" },
+  { "slug": "buttons", "name": "Buttons", "price": "$2 (ea, $10 for set)", "image": "/images/placeholder-merch.png" }
 ]
