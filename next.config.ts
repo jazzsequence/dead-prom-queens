@@ -2,6 +2,7 @@ import { createRequire } from "node:module";
 
 import type { NextConfig } from "next";
 
+import { describeP1Credentials } from "./lib/site/p1-credentials-log";
 import { isP1Configured, p1ConfigProblem } from "./lib/site/p1-config";
 import { applyP1ApiKey } from "./lib/site/p1-key";
 
@@ -21,6 +22,12 @@ if (p1Problem) {
   console.warn(
     `[p1] The ${process.env.PANTHEON_ENVIRONMENT} environment has no usable P1 credentials: ${p1Problem}. Pages use the repo copies, the P1 broker URL is unroutable and P1 sign-in will fail here. Set that secret for this environment and rebuild.`,
   );
+}
+
+// A multidev build reported a placeholder CSS_API_KEY while dev has the real one. Show what a non-live Pantheon build or server actually gets (length and
+// a short SHA-256 fingerprint of a real key, the whole string of a placeholder, only the names of related variables) so the two can be compared.
+if (process.env.PANTHEON_ENVIRONMENT && process.env.PANTHEON_ENVIRONMENT !== "live") {
+  console.warn(`[p1] ${process.env.PANTHEON_ENVIRONMENT} credentials as this build sees them: ${describeP1Credentials()}`);
 }
 
 const require = createRequire(import.meta.url);
