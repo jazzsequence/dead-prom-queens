@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { isP1Configured } from "../lib/site/p1-config";
+import { isP1Configured, p1ConfigProblem } from "../lib/site/p1-config";
 
 const REAL = { CSS_API_KEY: "sat_abc123def456", NEXT_PUBLIC_CSS_SITE_ID: "80040fab-7068-49dd-a12d-4d0b2bc2383d" };
 
@@ -27,6 +27,35 @@ describe("isP1Configured", () => {
     expect(isP1Configured({ ...REAL, CSS_API_KEY: "" })).toBe(false);
     expect(isP1Configured({ ...REAL, NEXT_PUBLIC_CSS_SITE_ID: "" })).toBe(false);
     expect(isP1Configured({ ...REAL, NEXT_PUBLIC_CSS_SITE_ID: "x" })).toBe(false);
+  });
+});
+
+describe("p1ConfigProblem", () => {
+  it("is null when isP1Configured is true", () => {
+    expect(p1ConfigProblem(REAL)).toBeNull();
+    expect(isP1Configured(REAL)).toBe(true);
+  });
+
+  it("names the setting that is wrong", () => {
+    expect(p1ConfigProblem({ NEXT_PUBLIC_CSS_SITE_ID: REAL.NEXT_PUBLIC_CSS_SITE_ID })).toBe("CSS_API_KEY is empty or not set");
+    expect(p1ConfigProblem({ ...REAL, CSS_API_KEY: "placeholder-x" })).toBe("CSS_API_KEY is a placeholder");
+    expect(p1ConfigProblem({ CSS_API_KEY: REAL.CSS_API_KEY })).toBe("NEXT_PUBLIC_CSS_SITE_ID is empty or not set");
+    expect(p1ConfigProblem({ ...REAL, NEXT_PUBLIC_CSS_SITE_ID: "x" })).toBe("NEXT_PUBLIC_CSS_SITE_ID is not a real site id");
+    expect(p1ConfigProblem({ ...REAL, NEXT_PUBLIC_CSS_SITE_ID: "00000000-0000-0000-0000-000000000000" })).toBe("NEXT_PUBLIC_CSS_SITE_ID is not a real site id");
+  });
+
+  it("names the live key on live, where the drafts key does not count", () => {
+    const live = { PANTHEON_ENVIRONMENT: "live", CSS_API_KEY: "sat_drafts_key", NEXT_PUBLIC_CSS_SITE_ID: REAL.NEXT_PUBLIC_CSS_SITE_ID };
+    expect(p1ConfigProblem(live)).toBe("CSS_API_KEY_LIVE (the published-only key) is not set");
+    expect(p1ConfigProblem({ ...live, CSS_API_KEY_LIVE: "sat_live_key_123" })).toBeNull();
+  });
+
+  it("never includes a value, so it can be printed in a build log", () => {
+    const secret = "sat_super_secret_value_9f3a";
+    for (const env of [{ CSS_API_KEY: secret }, { CSS_API_KEY: secret, NEXT_PUBLIC_CSS_SITE_ID: "not-a-uuid" }, { PANTHEON_ENVIRONMENT: "live", CSS_API_KEY: secret }]) {
+      expect(p1ConfigProblem(env)).not.toContain(secret);
+      expect(p1ConfigProblem(env)).not.toContain("not-a-uuid");
+    }
   });
 });
 
