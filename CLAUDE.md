@@ -138,8 +138,16 @@ How this fits the rest of this file:
   `http://127.0.0.1:9`, which also stops the SDK's own catch-all route (that route must stay an untouched shim; `published-page-routes.test.ts` pins it). CI's build and
   e2e steps use the same unroutable URL. After the change a build, the whole e2e run and 14 page loads sent the listener 0 requests. In placeholder mode an unknown path
   returns a 500 (the SDK's fetch to the unroutable address fails) where P1's 400 used to be handled; nothing tests it. The key is judged by `getP1ApiKey()`, so on live it is
-  `CSS_API_KEY_LIVE`; the check runs at build time, and on Pantheon the live key is a secret that only applies after a rebuild, so build and runtime agree. To check for stray
+  `CSS_API_KEY_LIVE`; the check runs at build time, and on Pantheon the live key is a secret that only applies after a rebuild. To check for stray
   requests, point `NEXT_PUBLIC_CSS_BASE_URL` at a local HTTP listener and count what it receives.
+- **The P1 key must be right at build time too, or the whole site goes uncached.** `isP1Configured()` judges the key by `getP1ApiKey()`, but the SDK does not call that: it reads
+  `CSS_API_KEY` itself. `applyP1ApiKey()` (`lib/site/p1-key.ts`) copies the live key into `CSS_API_KEY` on live, and is called from `next.config.ts` (build and start) and `instrumentation.ts`
+  (start; it does not run during `next build`). When the live build skipped it, the SDK sent the drafts-default key, P1 answered 401, and the SDK's `loadPublishedPage` calls `connection()`
+  on failure, which made every P1-backed route dynamic for that build: `private, no-cache, no-store`, no `x-nextjs-cache`, a P1 round trip on every request (about 1 to 2 s TTFB). The build
+  still succeeded, with only `[p1-next-sdk] published content unavailable for <path>: Authentication required` in its log. `scripts/check-prerender.mjs` (the end of `pnpm build`,
+  tested by `__tests__/check-prerender.test.ts`) now fails the build when a page that reads P1 was not prerendered, because a failed build keeps the previous good one running; set
+  `ALLOW_DYNAMIC_P1_ROUTES=1` to ship anyway, for example to deploy while P1 is down. To reproduce or check a key problem without touching P1, build against a local listener that answers
+  401 and logs the `x-api-key` header it receives (dummy keys, `PANTHEON_ENVIRONMENT=live`), then read the route table in the build output.
 
 ## Accessibility
 
@@ -223,7 +231,7 @@ h2: hero, `SectionHeading`, lyrics title, album header, the Markdown page title)
 button labels, uppercase and tracked, never with negative tracking. Neither Selfish nor Broken 15 works small, which is why neither is used for eyebrows or small
 headings. Neither face has a bold, so `font-synthesis-weight: none` (`ds.css`) stops the browser faking one; do not add `font-bold`-style classes to them for emphasis.
 The wordmark face (Unbounded, capitals, -0.05em, off here) and the blackletter accent (UnifrakturCook, off here) are optional template choices in `band.config.json`
-(`typography.wordmarkFace`, `typography.accentFace`); when off, those roles fall back to the display face, so components never need to know which was chosen. Where a
+(`typography.wordmarkFace`, `typography.accentFace`); when off, those roles fall back to the display face, so components never need to know which was chosen. `design-system/fonts.ts` imports a built-in face only when its option is on, because every import adds its `@font-face` rules to the CSS every page downloads; `__tests__/fonts-follow-config.test.ts` fails if the file and the config disagree. Turning one on therefore also means adding its import (Unbounded: move `@fontsource-variable/unbounded` from devDependencies back to dependencies, since the file is imported at runtime; UnifrakturCook: `pnpm add @fontsource/unifrakturcook`). Encode Sans Expanded, the old heading face, is gone. Where a
 wordmark face is chosen it is for the name only, in flat colour; never set the name in the blackletter face. A custom face (below) replaces the built-in one for its role.
 
 ## Custom faces
