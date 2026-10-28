@@ -32,6 +32,7 @@ and are the copy to rebuild a page from if one is ever damaged.
 Notes:
 - **Tour dates:** each show has an optional **URL id**. Set it once and never change it, because ticket links use it. If left empty it is made from the city and date.
 - **Image gallery:** Columns 1 shows one wide picture across the full width of the page; 2 and 3 make a grid. (After a change to a block's choices, the registry has to be re-synced to P1; CI does it on a push to `main`.)
+- **Pictures uploaded to P1 media:** upload the original if you like. The site asks P1 for each picture at the width its slot needs (about twice the column), so a 4000 px photo is not sent to visitors at 4000 px. A URL you paste that already has `width=...` is left as you wrote it.
 - **Always one h1:** every page needs exactly one. Use a Page heading block, or set an Image and text block's title to h1.
 - **Fallback:** if P1 is unreachable, or a page is not published, every page above falls back to the code version in this repo (`data/tour.json`, `data/merch.json` and the page files under `app/(site)/`). Keep those roughly current.
 - **Workstreams:** work on a P1 workstream and merge to main to publish.
