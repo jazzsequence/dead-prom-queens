@@ -16,7 +16,7 @@ Sign in at `/p1` and edit these pages in the visual editor. Changes go live when
 | `/lyrics` | The intro. The list comes from the lyrics files | Page heading, Lyrics index |
 | `/press`, `/privacy` | The text, in Markdown | Article |
 | `/bio` | Bio text and photo | Image and text |
-| `/press/kit` | The press kit: one-liner, bios, quick facts, the band, photos and the download link. It exists only in P1; turning `features.pressKit` off removes its sitemap and `llms.txt` entries (and its footer link once the footer follows the switch), not the page | Page heading, Image gallery (Columns 1 for the wide lead photo, 3 for the grid), Article |
+| `/press/kit` | The press kit: one-liner, bios, quick facts, the band, photos and the download link. It exists only in P1; turning `features.pressKit` off removes its sitemap and `llms.txt` entries and its footer link, not the page | Page heading, Image gallery (Columns 1 for the wide lead photo, 3 for the grid), Article |
 | `/merch` | Merch items, prices and images | Page heading, Merch grid |
 
 **Catalog blocks** (Album grid, Album header, Track list, Album with tracks, Lyrics index, Tour preview) show data that lives
