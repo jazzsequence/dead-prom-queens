@@ -239,7 +239,7 @@ h2: hero, `SectionHeading`, lyrics title, album header, the Markdown page title)
 button labels, uppercase and tracked, never with negative tracking. Neither Selfish nor Broken 15 works small, which is why neither is used for eyebrows or small
 headings. Neither face has a bold, so `font-synthesis-weight: none` (`ds.css`) stops the browser faking one; do not add `font-bold`-style classes to them for emphasis.
 The wordmark face (Unbounded, capitals, -0.05em, off here) and the blackletter accent (UnifrakturCook, off here) are optional template choices in `band.config.json`
-(`typography.wordmarkFace`, `typography.accentFace`); when off, those roles fall back to the display face, so components never need to know which was chosen. Where a
+(`typography.wordmarkFace`, `typography.accentFace`); when off, those roles fall back to the display face, so components never need to know which was chosen. `design-system/fonts.ts` imports a built-in face only when its option is on, because every import adds its `@font-face` rules to the CSS every page downloads; `__tests__/fonts-follow-config.test.ts` fails if the file and the config disagree. Turning one on therefore also means adding its import (Unbounded: move `@fontsource-variable/unbounded` from devDependencies back to dependencies, since the file is imported at runtime; UnifrakturCook: `pnpm add @fontsource/unifrakturcook`). Encode Sans Expanded, the old heading face, is gone. Where a
 wordmark face is chosen it is for the name only, in flat colour; never set the name in the blackletter face. A custom face (below) replaces the built-in one for its role.
 
 ## Custom faces

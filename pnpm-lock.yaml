@@ -16,14 +16,8 @@ importers:
       '@fontsource-variable/space-grotesk':
         specifier: ^5.3.0
         version: 5.3.0
-      '@fontsource-variable/unbounded':
-        specifier: ^5.3.0
-        version: 5.3.0
       '@fontsource/special-elite':
         specifier: 5.3.0
-        version: 5.3.0
-      '@fontsource/unifrakturcook':
-        specifier: ^5.3.0
         version: 5.3.0
       '@pantheon-systems/cpub-react-sdk':
         specifier: ^5.2.1
@@ -95,7 +89,7 @@ importers:
       '@eslint/js':
         specifier: ^9.27.0
         version: 9.39.5
-      '@fontsource/encode-sans-expanded':
+      '@fontsource-variable/unbounded':
         specifier: ^5.3.0
         version: 5.3.0
       '@fontsource/unbounded':
@@ -660,17 +654,11 @@ packages:
   '@fontsource-variable/unbounded@5.3.0':
     resolution: {integrity: sha512-ea565Ncn4r7gPdBEHcmaF31V11hDfkL7b/JCklLobQbMfbu2ZZQrVWNgdeEFWFLqNh36yhieZWOgxdAnMTzrLg==}
 
-  '@fontsource/encode-sans-expanded@5.3.0':
-    resolution: {integrity: sha512-ay7t9tx7TvBTjL6H9oAR+Z5NOWxOEXTK9IOJ2jKNtT/+j/2Sn2wpPV2E1eY716Be0kOcEFHcluzlphTZvQGt+g==}
-
   '@fontsource/special-elite@5.3.0':
     resolution: {integrity: sha512-fOQ9XU8m4KnqzcLibAXCxTsKzbxePNDjPqVss5GSMcPVCY1TuCv+Wq8gm1ebqIR6XS1rhMbQ7ECP9ocKVEEpTA==}
 
   '@fontsource/unbounded@5.3.0':
     resolution: {integrity: sha512-pPD6hsTnjoQRr6pCsqMHbHBfauB4LZygCNQEUJHu+CO2wzDFHqELEFSG7sTwo5Z5Gr4q3OK0fIILOXBJDv6lcw==}
-
-  '@fontsource/unifrakturcook@5.3.0':
-    resolution: {integrity: sha512-oOeUerPztcIBR6/+krMW4n/8VLF8A4NrjCNpR1C6F/C8JLekLMoSm5JzrxfPtyn5RtJdYQdTYigk4CtUCWxBCw==}
 
   '@google-cloud/paginator@5.0.2':
     resolution: {integrity: sha512-DJS3s0OVH4zFDB1PzjxAsHqJT6sKVbRwwML0ZBP9PbU7Yebtu/7SWMRzvO2J3nUi9pRNITCfu4LJeooM2w4pjg==}
@@ -5892,13 +5880,9 @@ snapshots:
 
   '@fontsource-variable/unbounded@5.3.0': {}
 
-  '@fontsource/encode-sans-expanded@5.3.0': {}
-
   '@fontsource/special-elite@5.3.0': {}
 
   '@fontsource/unbounded@5.3.0': {}
-
-  '@fontsource/unifrakturcook@5.3.0': {}
 
   '@google-cloud/paginator@5.0.2':
     dependencies:
