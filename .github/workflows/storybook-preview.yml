@@ -18,6 +18,13 @@ permissions:
   contents: write
   pull-requests: write
 
+# This group is per PR, so it only stops a PR racing itself (a newer push cancels the older run). It cannot serialise
+# different PRs, and every run writes to the one gh-pages branch: two PRs two minutes apart failed their "Publish preview"
+# step with `! [rejected] gh-pages -> gh-pages (fetch first)` and `cannot lock ref 'refs/heads/gh-pages': is at X but
+# expected Y` (a re-run passed). So the two jobs that push to gh-pages also share one job-level group, `storybook-gh-pages`,
+# with `queue: max`: by default only one run can wait in a group and a newer run cancels the older waiting one, which
+# would drop a PR's preview and leave its required check cancelled; `queue: max` lets up to 100 wait, first in first out
+# (it cannot be combined with `cancel-in-progress: true`, so the job groups do not set it).
 concurrency:
   group: storybook-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -26,6 +33,9 @@ jobs:
   deploy:
     if: github.event.action != 'closed'
     name: Build and publish Storybook
+    concurrency:
+      group: storybook-gh-pages
+      queue: max
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -68,6 +78,9 @@ jobs:
   cleanup:
     if: github.event.action == 'closed'
     name: Remove preview
+    concurrency:
+      group: storybook-gh-pages
+      queue: max
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
