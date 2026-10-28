@@ -55,7 +55,7 @@ export const imageTextBlock = {
           // The order class sits on this wrapper: inside the lightbox the image is no longer a grid child.
           <div className={imageSide === "right" ? "md:order-2" : ""}>
             <LightboxImage
-              src={mediaUrl(imageUrl, 1000)}
+              src={mediaUrl(imageUrl, 960)}
               alt={imageAlt || title || "Photo"}
               loading="lazy"
               decoding="async"

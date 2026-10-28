@@ -26,7 +26,7 @@ export const merchGridBlock = {
         {(items ?? [])
           .filter((i) => i.name)
           .map((i) => (
-            <MerchCard key={`${i.name}-${i.imageUrl}`} name={i.name ?? ""} price={i.price ?? ""} image={mediaUrl(i.imageUrl, 1000)} headingLevel="h2" />
+            <MerchCard key={`${i.name}-${i.imageUrl}`} name={i.name ?? ""} price={i.price ?? ""} image={mediaUrl(i.imageUrl, 960)} headingLevel="h2" />
           ))}
       </div>
     </div>
