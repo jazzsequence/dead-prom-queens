@@ -53,7 +53,7 @@ export const heroBlock = {
     ],
   },
   render: ({ imageUrl, kicker, title, blurb, actions }: { imageUrl?: string; kicker?: string; title?: string; blurb?: string; actions?: ActionItem[] }) => (
-    <Hero image={mediaUrl(imageUrl, 1920)} kicker={kicker ?? ""} title={title ?? ""} blurb={blurb ?? ""} actions={toActions(actions)} />
+    <Hero image={mediaUrl(imageUrl, 1500)} kicker={kicker ?? ""} title={title ?? ""} blurb={blurb ?? ""} actions={toActions(actions)} />
   ),
 };
 
@@ -99,8 +99,13 @@ export const articleBlock = {
 
 type GalleryItem = { imageUrl?: string; alt?: string };
 
-/** Pixels to ask P1 media for: about twice the column the picture is drawn in (the lightbox opens the same file larger, so not less). */
-const galleryWidth = (columns?: string) => (columns === "1" ? 1600 : columns === "3" ? 1000 : 1200);
+/**
+ * Pixels to ask P1 media for. P1 media never enlarges: when the width asked for is at or above the upload's own width it sends the
+ * original back, unresized and not recompressed (measured: a 1024 px portrait came back as a 751 KiB WebP for width=1200 and as a
+ * 63 KiB AVIF for width=800). The uploads here are 1024 and 1600 px wide, so these sit just under those, and still about twice the
+ * column the picture is drawn in (the lightbox opens the same file larger, so not much less).
+ */
+const galleryWidth = (columns?: string) => (columns === "1" ? 1500 : 1000);
 
 /** Pictures in a grid, or one wide picture across the full width (Columns: 1); each opens larger in the lightbox. */
 export const imageGalleryBlock = {

@@ -64,12 +64,25 @@ describe("blocks", () => {
 
     it("are requested at the size they are drawn at, wider for one wide picture than for a grid", () => {
       const items = [{ imageUrl: media, alt: "A photo" }];
-      expect(html("ImageGalleryBlock", { columns: "1", items })).toContain("width=1600");
-      expect(html("ImageGalleryBlock", { columns: "2", items })).toContain("width=1200");
+      expect(html("ImageGalleryBlock", { columns: "1", items })).toContain("width=1500");
+      expect(html("ImageGalleryBlock", { columns: "2", items })).toContain("width=1000");
       expect(html("ImageGalleryBlock", { columns: "3", items })).toContain("width=1000");
       expect(html("ImageTextBlock", { imageUrl: media, imageAlt: "A photo" })).toContain("width=1000");
       expect(html("MerchGridBlock", { items: [{ name: "Tee", price: "$25", imageUrl: media }] })).toContain("width=1000");
-      expect(html("HeroBlock", { imageUrl: media, title: "Title" })).toContain("width=1920");
+      expect(html("HeroBlock", { imageUrl: media, title: "Title" })).toContain("width=1500");
+    });
+
+    // P1 media sends an upload back unresized when the width asked for is at or above the upload's own width, and this site's uploads are
+    // 1024 and 1600 px wide. A width above 1500 (or 1000 for the narrow ones) silently turns the saving off, as a 1200 and a 1600 did.
+    it("stay below the widths of the uploads on this site (1024 and 1600 px), or P1 media sends the original", () => {
+      const items = [{ imageUrl: media, alt: "A photo" }];
+      const widths = [
+        html("ImageGalleryBlock", { columns: "2", items }),
+        html("ImageGalleryBlock", { columns: "3", items }),
+        html("ImageTextBlock", { imageUrl: media, imageAlt: "A photo" }),
+        html("MerchGridBlock", { items: [{ name: "Tee", price: "$25", imageUrl: media }] }),
+      ].map((h) => Number(/width=(\d+)/.exec(h)?.[1]));
+      for (const w of widths) expect(w).toBeLessThan(1024);
     });
 
     it("leave local images and other hosts alone", () => {

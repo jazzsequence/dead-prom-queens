@@ -1,7 +1,9 @@
 /**
  * P1 media (media.p1.pantheon.io, which redirects to pantheon-files.com) serves an upload at its original size unless the URL asks for
  * less. Measured on /bio: `?fit=scale-down` alone returned a 1.7 MB WebP for a photo drawn about 350 px wide; the same photo with
- * `width=800` is 66 KB (AVIF, negotiated from the Accept header). Only the host's own transform parameters are used, so a URL that
+ * `width=800` is 66 KB (AVIF, negotiated from the Accept header). It never enlarges: a width at or above the upload's own width returns the original,
+ * unresized and not recompressed (a 1024 px portrait: 751 KiB WebP for width=1200, 63 KiB AVIF for width=800), so callers ask for less than the
+ * uploads' width (see galleryWidth in components/puck/band/content-blocks.tsx). Only the host's own transform parameters are used, so a URL that
  * is not P1 media (a local /images file, another site) is returned untouched.
  *
  * This is deliberately not `buildImageUrl` from @pantheon-systems/p1-media: that package's entry also carries the editor plugin, which
