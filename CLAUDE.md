@@ -155,7 +155,7 @@ How this fits the rest of this file:
   still succeeded, with only `[p1-next-sdk] published content unavailable for <path>: Authentication required` in its log. `scripts/check-prerender.mjs` (the end of `pnpm build`,
   tested by `__tests__/check-prerender.test.ts`) now fails the build when a page that reads P1 was not prerendered, because a failed build keeps the previous good one running; set
   `ALLOW_DYNAMIC_P1_ROUTES=1` to ship anyway, for example to deploy while P1 is down. To reproduce or check a key problem without touching P1, build against a local listener that answers
-  401 and logs the `x-api-key` header it receives (dummy keys, `PANTHEON_ENVIRONMENT=live`), then read the route table in the build output.
+  401 and logs the `x-api-key` header it receives (dummy keys, `PANTHEON_ENVIRONMENT=live`), then read the route table in the build output. A Pantheon build or server with no usable P1 credentials (no `PANTHEON_ENVIRONMENT` means CI and local, which stay silent by design) prints `[p1] The <env> environment has no usable P1 credentials: <setting>` from `next.config.ts` (`p1ConfigProblem` in `lib/site/p1-config.ts`: it names the setting, never a value), so a multidev that serves the repo copies and fails P1 sign-in with "Broker login failed (500)" says why in its build log (`terminus node:logs:build:get <site>.<env> <build-id>` works for PR environments).
 
 ## Accessibility
 

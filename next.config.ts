@@ -2,7 +2,7 @@ import { createRequire } from "node:module";
 
 import type { NextConfig } from "next";
 
-import { isP1Configured } from "./lib/site/p1-config";
+import { isP1Configured, p1ConfigProblem } from "./lib/site/p1-config";
 import { applyP1ApiKey } from "./lib/site/p1-key";
 
 // The SDK reads CSS_API_KEY itself, at build time too, and instrumentation.ts does not run during `next build`. Without this the
@@ -12,6 +12,15 @@ try {
   applyP1ApiKey();
 } catch {
   /* see above */
+}
+
+// On Pantheon, a build or server with no usable P1 credentials quietly becomes a placeholder one: pages are the repo copies, the P1 broker URL
+// below is unroutable, and signing in to P1 fails with "Broker login failed (500)". Say why in the log. It names the setting, never a value.
+const p1Problem = process.env.PANTHEON_ENVIRONMENT ? p1ConfigProblem() : null;
+if (p1Problem) {
+  console.warn(
+    `[p1] The ${process.env.PANTHEON_ENVIRONMENT} environment has no usable P1 credentials: ${p1Problem}. Pages use the repo copies, the P1 broker URL is unroutable and P1 sign-in will fail here. Set that secret for this environment and rebuild.`,
+  );
 }
 
 const require = createRequire(import.meta.url);
