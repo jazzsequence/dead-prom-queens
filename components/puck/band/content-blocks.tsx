@@ -53,7 +53,7 @@ export const heroBlock = {
     ],
   },
   render: ({ imageUrl, kicker, title, blurb, actions }: { imageUrl?: string; kicker?: string; title?: string; blurb?: string; actions?: ActionItem[] }) => (
-    <Hero image={mediaUrl(imageUrl, 1500)} kicker={kicker ?? ""} title={title ?? ""} blurb={blurb ?? ""} actions={toActions(actions)} />
+    <Hero image={mediaUrl(imageUrl, 1400)} kicker={kicker ?? ""} title={title ?? ""} blurb={blurb ?? ""} actions={toActions(actions)} />
   ),
 };
 
@@ -102,10 +102,12 @@ type GalleryItem = { imageUrl?: string; alt?: string };
 /**
  * Pixels to ask P1 media for. P1 media never enlarges: when the width asked for is at or above the upload's own width it sends the
  * original back, unresized and not recompressed (measured: a 1024 px portrait came back as a 751 KiB WebP for width=1200 and as a
- * 63 KiB AVIF for width=800). The uploads here are 1024 and 1600 px wide, so these sit just under those, and still about twice the
- * column the picture is drawn in (the lightbox opens the same file larger, so not much less).
+ * 63 KiB AVIF for width=800; on live the 1000 px portraits came back as 950 KiB to 1 MB WebP for width=1000 and the 1500 px landscape as
+ * 1.3 MB for width=1500, while 960 and 1400 give AVIF at 70 to 130 KiB). The uploads here are 1000 px (portraits) and 1500 px (landscape)
+ * wide, so these sit just under those, and still about twice the column the picture is drawn in (the lightbox opens the same file
+ * larger, so not much less).
  */
-const galleryWidth = (columns?: string) => (columns === "1" ? 1500 : 1000);
+const galleryWidth = (columns?: string) => (columns === "1" ? 1400 : 960);
 
 /** Pictures in a grid, or one wide picture across the full width (Columns: 1); each opens larger in the lightbox. */
 export const imageGalleryBlock = {

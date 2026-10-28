@@ -64,25 +64,29 @@ describe("blocks", () => {
 
     it("are requested at the size they are drawn at, wider for one wide picture than for a grid", () => {
       const items = [{ imageUrl: media, alt: "A photo" }];
-      expect(html("ImageGalleryBlock", { columns: "1", items })).toContain("width=1500");
-      expect(html("ImageGalleryBlock", { columns: "2", items })).toContain("width=1000");
-      expect(html("ImageGalleryBlock", { columns: "3", items })).toContain("width=1000");
-      expect(html("ImageTextBlock", { imageUrl: media, imageAlt: "A photo" })).toContain("width=1000");
-      expect(html("MerchGridBlock", { items: [{ name: "Tee", price: "$25", imageUrl: media }] })).toContain("width=1000");
-      expect(html("HeroBlock", { imageUrl: media, title: "Title" })).toContain("width=1500");
+      expect(html("ImageGalleryBlock", { columns: "1", items })).toContain("width=1400");
+      expect(html("ImageGalleryBlock", { columns: "2", items })).toContain("width=960");
+      expect(html("ImageGalleryBlock", { columns: "3", items })).toContain("width=960");
+      expect(html("ImageTextBlock", { imageUrl: media, imageAlt: "A photo" })).toContain("width=960");
+      expect(html("MerchGridBlock", { items: [{ name: "Tee", price: "$25", imageUrl: media }] })).toContain("width=960");
+      expect(html("HeroBlock", { imageUrl: media, title: "Title" })).toContain("width=1400");
     });
 
-    // P1 media sends an upload back unresized when the width asked for is at or above the upload's own width, and this site's uploads are
-    // 1024 and 1600 px wide. A width above 1500 (or 1000 for the narrow ones) silently turns the saving off, as a 1200 and a 1600 did.
-    it("stay below the widths of the uploads on this site (1024 and 1600 px), or P1 media sends the original", () => {
+    // P1 media sends an upload back unresized when the width asked for is at or above the upload's own width. Measured on live: this site's
+    // portraits are 1000 px wide and its landscapes 1500, and width=1000 / width=1500 returned them as 950 KiB to 1.3 MB WebP files.
+    it("stay below the widths of the uploads on this site (1000 and 1500 px), or P1 media sends the original", () => {
       const items = [{ imageUrl: media, alt: "A photo" }];
-      const widths = [
+      const narrow = [
         html("ImageGalleryBlock", { columns: "2", items }),
         html("ImageGalleryBlock", { columns: "3", items }),
         html("ImageTextBlock", { imageUrl: media, imageAlt: "A photo" }),
         html("MerchGridBlock", { items: [{ name: "Tee", price: "$25", imageUrl: media }] }),
       ].map((h) => Number(/width=(\d+)/.exec(h)?.[1]));
-      for (const w of widths) expect(w).toBeLessThan(1024);
+      for (const w of narrow) expect(w).toBeLessThan(1000);
+      const wide = [html("ImageGalleryBlock", { columns: "1", items }), html("HeroBlock", { imageUrl: media, title: "Title" })].map((h) =>
+        Number(/width=(\d+)/.exec(h)?.[1]),
+      );
+      for (const w of wide) expect(w).toBeLessThan(1500);
     });
 
     it("leave local images and other hosts alone", () => {
