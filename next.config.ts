@@ -68,6 +68,27 @@ const publicHeaders = [
   ...(process.env.NODE_ENV === "production" ? [{ key: "Content-Security-Policy", value: csp }] : []),
 ];
 
+/**
+ * Files served from public/ get Next's default `Cache-Control: public, max-age=0`, which Cloudflare in front of Pantheon treats as "do not
+ * cache" (measured on both live sites: `cf-cache-status: BYPASS`), so every image was fetched from the origin each time. Local images are
+ * referenced as `/images/x.jpg?v=<build>` (design-system/asset.ts), a new URL for every build, so those can be cached for good: the file
+ * behind a given URL cannot change. Anything without the version (the icons, the social card, an image referenced some other way) is
+ * cached for an hour and may be served stale for a day while it is refreshed, so replacing one shows up within the hour, not a year later.
+ */
+const IMMUTABLE_CACHE = "public, max-age=31536000, immutable";
+const SHORT_CACHE = "public, max-age=3600, stale-while-revalidate=86400";
+// Everything else that keeps its URL: the icons (the app/ metadata routes and public/icons), the social card, and MapLibre's worker
+// (public/maplibre, copied there by scripts/copy-maplibre-worker.mjs, so it only changes when maplibre-gl is bumped).
+const UNVERSIONED_PUBLIC_FILES = ["/images/:path*", "/icons/:path*", "/og-default.jpg", "/maplibre/:path*", "/icon.png", "/icon.svg", "/apple-icon.png", "/favicon.ico"];
+const publicFileHeaders = [
+  { source: "/images/:path*", has: [{ type: "query" as const, key: "v" }], headers: [{ key: "Cache-Control", value: IMMUTABLE_CACHE }] },
+  ...UNVERSIONED_PUBLIC_FILES.map((source) => ({
+    source,
+    missing: [{ type: "query" as const, key: "v" }],
+    headers: [{ key: "Cache-Control", value: SHORT_CACHE }],
+  })),
+];
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   // A new value for every build; design-system/asset.ts appends it to local image URLs.
@@ -101,6 +122,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/:path*", headers: baseHeaders },
       { source: "/((?!p1(?:/|$)).*)", headers: publicHeaders },
+      ...publicFileHeaders,
     ];
   },
   // Load yjs as one external module on the server. Bundled copies of it (the ESM build in one place, the CJS build
